@@ -7,249 +7,222 @@
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
-/* ── Reset & global overflow protection ── */
+/* ── Reset ── */
 *,*::before,*::after{box-sizing:border-box}
-html{overflow-x:hidden;-webkit-text-size-adjust:100%;text-size-adjust:100%}
-body{background:var(--bg);color:var(--tx);font-family:'Inter',system-ui,sans-serif;line-height:1.6;min-width:320px;overflow-x:hidden;overflow-wrap:break-word;-webkit-font-smoothing:antialiased;margin:0;padding:0}
-img,video,svg{max-width:100%;height:auto}
+html{overflow-x:hidden;-webkit-text-size-adjust:100%}
 
-/* ── Custom properties ── */
+/* ── Design tokens ── */
 :root{
-  --bg:#050507;--s1:#0c0c12;--s2:#141420;--bd:#1e1e2e;--bd2:#2a2a40;
-  --tx:#eeeef4;--tx2:#9999b0;--tx3:#555568;
-  --purple:#a78bfa;--blue:#60a5fa;--green:#4ade80;--amber:#fbbf24;
-  --rose:#fb7185;--cyan:#22d3ee;--slate:#94a3b8;--teal:#2dd4bf;--indigo:#818cf8;--orange:#fb923c;
+  /* Zinc-based palette — narrow tonal range */
+  --bg:#09090b;
+  --surface:#111113;
+  --elevated:#18181b;
+  --overlay:#27272a;
 
-  /* Fluid typography — scales between 320px and 1440px viewport */
-  --fs-2xs:clamp(0.5rem, 0.46rem + 0.18vw, 0.625rem);
-  --fs-xs:clamp(0.625rem, 0.58rem + 0.18vw, 0.75rem);
-  --fs-sm:clamp(0.75rem, 0.71rem + 0.18vw, 0.84rem);
-  --fs-base:clamp(0.8125rem, 0.77rem + 0.22vw, 0.9375rem);
-  --fs-md:clamp(0.9375rem, 0.86rem + 0.36vw, 1.125rem);
-  --fs-lg:clamp(1.0625rem, 0.96rem + 0.45vw, 1.375rem);
-  --fs-xl:clamp(1.25rem, 1.07rem + 0.8vw, 1.75rem);
-  --fs-2xl:clamp(1.5rem, 1.18rem + 1.43vw, 2.5rem);
-  --fs-hero:clamp(1.75rem, 1.29rem + 2.14vw, 3.25rem);
+  --border:rgba(255,255,255,.06);
+  --border-hover:rgba(255,255,255,.10);
+  --border-strong:rgba(255,255,255,.14);
+
+  --tx:#fafafa;
+  --tx2:#a1a1aa;
+  --tx3:#71717a;
+  --tx4:#3f3f46;
+
+  /* Functional colors only — used sparingly */
+  --green:#22c55e;
+  --red:#ef4444;
+  --amber:#eab308;
+
+  /* Fluid type */
+  --fs-2xs:clamp(0.5625rem,0.52rem + 0.18vw,0.6875rem);
+  --fs-xs:clamp(0.6875rem,0.64rem + 0.18vw,0.8125rem);
+  --fs-sm:clamp(0.8125rem,0.77rem + 0.18vw,0.875rem);
+  --fs-base:clamp(0.875rem,0.83rem + 0.22vw,1rem);
+  --fs-md:clamp(1rem,0.93rem + 0.36vw,1.125rem);
+  --fs-lg:clamp(1.125rem,1rem + 0.54vw,1.5rem);
+  --fs-xl:clamp(1.375rem,1.14rem + 1vw,2rem);
+  --fs-hero:clamp(2rem,1.5rem + 2.5vw,3.5rem);
 
   /* Fluid spacing */
-  --sp-2xs:clamp(0.25rem, 0.18rem + 0.36vw, 0.5rem);
-  --sp-xs:clamp(0.375rem, 0.29rem + 0.36vw, 0.625rem);
-  --sp-sm:clamp(0.5rem, 0.41rem + 0.45vw, 0.75rem);
-  --sp-md:clamp(0.75rem, 0.57rem + 0.89vw, 1.25rem);
-  --sp-lg:clamp(1rem, 0.73rem + 1.25vw, 1.75rem);
-  --sp-xl:clamp(1.5rem, 1rem + 2.23vw, 3rem);
+  --sp-xs:clamp(0.25rem,0.18rem + 0.36vw,0.5rem);
+  --sp-sm:clamp(0.5rem,0.41rem + 0.45vw,0.75rem);
+  --sp-md:clamp(0.75rem,0.57rem + 0.89vw,1.25rem);
+  --sp-lg:clamp(1.25rem,0.93rem + 1.43vw,2rem);
+  --sp-xl:clamp(2rem,1.43rem + 2.86vw,4rem);
+  --sp-2xl:clamp(3rem,2.14rem + 4.29vw,6rem);
 
-  /* Fluid radii */
-  --radius:clamp(14px, 1rem + 0.36vw, 20px);
-  --radius-sm:clamp(10px, 0.625rem + 0.27vw, 14px);
-  --radius-xs:clamp(6px, 0.375rem + 0.18vw, 10px);
+  /* Radii */
+  --r-sm:8px;--r-md:12px;--r-lg:16px;
+
+  /* Transitions */
+  --ease:cubic-bezier(.4,0,.2,1);
 }
 
-/* ── Typography ── */
-a{color:var(--purple);text-decoration:none}
-a:hover{text-decoration:underline}
-code{font-family:'JetBrains Mono',monospace;font-size:var(--fs-xs);background:rgba(255,255,255,.05);padding:2px 6px;border-radius:6px;border:1px solid rgba(255,255,255,.04);overflow-wrap:break-word;word-break:break-all}
-h1,h2,h3{text-wrap:balance}
+/* ── Base ── */
+body{background:var(--bg);color:var(--tx);font-family:'Inter',system-ui,-apple-system,sans-serif;font-size:14px;line-height:1.6;min-width:320px;overflow-x:hidden;overflow-wrap:break-word;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;margin:0}
+a{color:var(--tx);text-decoration:underline;text-decoration-color:var(--tx3);text-underline-offset:2px;transition:text-decoration-color .2s var(--ease)}
+a:hover{text-decoration-color:var(--tx)}
+code{font-family:'JetBrains Mono',monospace;font-size:var(--fs-2xs);background:var(--elevated);padding:2px 7px;border-radius:5px;border:1px solid var(--border);overflow-wrap:break-word;word-break:break-all}
+h1,h2,h3{text-wrap:balance;font-feature-settings:'cv02','cv03','cv04','cv11'}
 p,li{text-wrap:pretty}
 
-/* Prevent flex/grid children from overflowing */
-.row>*,.g2>*,.pipe>*,.kpis>*,.stats>*,.zone>*{min-width:0}
+/* Prevent flex/grid overflow */
+.row>*,.g2>*,.pipe>*,.kpis>*,.stats>*,.zone>*,.sec-grid>*{min-width:0}
 
 /* ── Gate ── */
 #gate{position:fixed;inset:0;z-index:9999;background:var(--bg);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:var(--sp-lg);padding:var(--sp-lg)}
 #gate.off{display:none}
-#gate h1{font-size:var(--fs-2xl);font-weight:900;letter-spacing:-1.5px}
-#gate h1 b{background:linear-gradient(135deg,var(--purple),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-#gate p{color:var(--tx3);font-size:var(--fs-sm);max-width:380px;text-align:center;line-height:1.6}
-#gate input{background:var(--s1);border:1px solid var(--bd);color:var(--tx);padding:var(--sp-md) var(--sp-lg);border-radius:var(--radius);font-size:var(--fs-base);font-family:'JetBrains Mono',monospace;width:min(280px,85vw);text-align:center;outline:none;transition:all .25s}
-#gate input:focus{border-color:var(--purple);box-shadow:0 0 0 4px rgba(167,139,250,.1)}
-#gate input.err{border-color:var(--rose);animation:shake .35s}
-@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+#gate h1{font-size:var(--fs-hero);font-weight:800;letter-spacing:-.04em}
+#gate h1 b{color:var(--tx2)}
+#gate p{color:var(--tx3);font-size:var(--fs-sm);max-width:340px;text-align:center;line-height:1.7}
+#gate input{background:var(--surface);border:1px solid var(--border);color:var(--tx);padding:14px 24px;border-radius:var(--r-md);font-size:var(--fs-base);font-family:'JetBrains Mono',monospace;width:min(260px,80vw);text-align:center;outline:none;transition:all .2s var(--ease)}
+#gate input:focus{border-color:var(--border-strong);box-shadow:0 0 0 3px rgba(255,255,255,.04)}
+#gate input.err{border-color:var(--red);animation:shake .3s}
+@keyframes shake{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
 
 /* ── Top bar ── */
-#bar{position:sticky;top:0;z-index:100;background:rgba(5,5,7,.85);backdrop-filter:blur(24px) saturate(180%);-webkit-backdrop-filter:blur(24px) saturate(180%);border-bottom:1px solid var(--bd);padding:var(--sp-sm) var(--sp-lg);display:none;align-items:center;justify-content:space-between;gap:var(--sp-sm);flex-wrap:wrap}
-#bar h1{font-size:var(--fs-md);font-weight:900;letter-spacing:-.3px}
-#bar h1 b{background:linear-gradient(135deg,var(--purple),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.sub{font-size:var(--fs-2xs);color:var(--tx3);font-family:'JetBrains Mono',monospace;margin-left:var(--sp-sm)}
-.kpis{display:flex;gap:var(--sp-2xs);flex-wrap:wrap}
-.k{background:var(--s1);border:1px solid var(--bd);border-radius:var(--radius-xs);padding:var(--sp-2xs) var(--sp-sm);display:flex;align-items:center;gap:var(--sp-2xs);transition:border-color .2s}
-.k:hover{border-color:var(--bd2)}
-.k .n{font-weight:800;font-size:var(--fs-sm);font-family:'JetBrains Mono',monospace}
-.k .l{color:var(--tx2);font-size:var(--fs-2xs);text-transform:uppercase;letter-spacing:.5px}
+#bar{position:sticky;top:0;z-index:100;background:rgba(9,9,11,.9);backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);border-bottom:1px solid var(--border);padding:10px var(--sp-lg);display:none;align-items:center;justify-content:space-between;gap:var(--sp-sm);flex-wrap:wrap}
+#bar h1{font-size:var(--fs-base);font-weight:800;letter-spacing:-.03em}
+#bar h1 b{color:var(--tx2)}
+.sub{font-size:var(--fs-2xs);color:var(--tx4);font-family:'JetBrains Mono',monospace;margin-left:var(--sp-sm)}
+.kpis{display:flex;gap:4px;flex-wrap:wrap}
+.k{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-sm);padding:4px 10px;display:flex;align-items:center;gap:6px;transition:border-color .2s var(--ease)}
+.k:hover{border-color:var(--border-hover)}
+.k .n{font-weight:700;font-size:var(--fs-xs);font-family:'JetBrains Mono',monospace;font-variant-numeric:tabular-nums}
+.k .l{color:var(--tx3);font-size:var(--fs-2xs);text-transform:uppercase;letter-spacing:.5px}
 
-/* ── Main content ── */
-#main{display:none;max-width:1400px;margin:0 auto;padding:var(--sp-lg) var(--sp-lg) clamp(3rem,8vw,6rem)}
+/* ── Main ── */
+#main{display:none;max-width:1200px;margin:0 auto;padding:var(--sp-lg) var(--sp-lg) var(--sp-2xl)}
+
+/* ── Hero ── */
+.hero{text-align:center;padding:var(--sp-2xl) 0 var(--sp-xl)}
+.hero h1{font-size:var(--fs-hero);font-weight:800;letter-spacing:-.04em;margin-bottom:var(--sp-sm)}
+.hero h1 b{color:var(--tx2)}
+.hero p{font-size:var(--fs-base);color:var(--tx2);max-width:640px;margin:0 auto;line-height:1.75}
+.hero-sub{margin-top:var(--sp-sm);color:var(--tx3) !important;font-size:var(--fs-sm) !important}
+.hero .stats{display:flex;justify-content:center;gap:6px;margin-top:var(--sp-xl);flex-wrap:wrap}
+.hero .stat{text-align:center;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:var(--sp-md) var(--sp-md);flex:1 1 auto;max-width:140px;min-width:0;transition:border-color .2s var(--ease)}
+.hero .stat:hover{border-color:var(--border-hover)}
+.hero .stat .n{font-size:var(--fs-xl);font-weight:800;font-family:'JetBrains Mono',monospace;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.hero .stat .l{font-size:var(--fs-2xs);color:var(--tx3);text-transform:uppercase;letter-spacing:.8px;margin-top:2px}
 
 /* ── Section headers ── */
-.sh{margin:var(--sp-xl) 0 var(--sp-lg);display:flex;align-items:center;gap:var(--sp-md)}
-.sh::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--bd),transparent);min-width:2rem}
-.sh h2{font-size:var(--fs-xs);font-weight:700;text-transform:uppercase;letter-spacing:2px}
-.sh-purple h2{color:var(--purple)}
-.sh-blue h2{color:var(--blue)}
-.sh-green h2{color:var(--green)}
-.sh-amber h2{color:var(--amber)}
-.sh-rose h2{color:var(--rose)}
-.sh-cyan h2{color:var(--cyan)}
-.sh-teal h2{color:var(--teal)}
-.sh-orange h2{color:var(--orange)}
+.sh{margin:var(--sp-2xl) 0 var(--sp-lg);display:flex;align-items:center;gap:var(--sp-md)}
+.sh::after{content:'';flex:1;height:1px;background:var(--border);min-width:2rem}
+.sh h2{font-size:var(--fs-2xs);font-weight:600;text-transform:uppercase;letter-spacing:2.5px;color:var(--tx3)}
 
-/* ── Grid layouts ── */
+/* ── Grid ── */
 .row{display:grid;gap:var(--sp-md);margin-bottom:var(--sp-md)}
 .r2{grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr))}
-.r3{grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))}
-.g2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:var(--sp-sm)}
+.r3{grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr))}
+.g2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:var(--sp-sm)}
 
-/* ── Zone cards (glass) ── */
-.zone{border-radius:var(--radius);padding:var(--sp-lg);border:1px solid;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);transition:border-color .3s}
-.zone:hover{border-color:rgba(255,255,255,.08)}
-.zh{font-size:var(--fs-xl);font-weight:800;letter-spacing:-.5px;margin-bottom:var(--sp-2xs)}
+/* ── Zone cards ── */
+.zone{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:var(--sp-lg);transition:border-color .2s var(--ease)}
+.zone:hover{border-color:var(--border-hover)}
+.zh{font-size:var(--fs-lg);font-weight:700;letter-spacing:-.02em;margin-bottom:4px}
 .zh-sm{font-size:var(--fs-md)}
-.zd{font-size:var(--fs-base);color:var(--tx2);margin-bottom:var(--sp-md);line-height:1.65}
+.zd{font-size:var(--fs-sm);color:var(--tx2);margin-bottom:var(--sp-md);line-height:1.7}
 
-.zp{background:rgba(167,139,250,.03);border-color:rgba(167,139,250,.12)}.zp .zh{color:var(--purple)}
-.zb{background:rgba(96,165,250,.03);border-color:rgba(96,165,250,.12)}.zb .zh{color:var(--blue)}
-.zg{background:rgba(74,222,128,.03);border-color:rgba(74,222,128,.12)}.zg .zh{color:var(--green)}
-.za{background:rgba(251,191,36,.03);border-color:rgba(251,191,36,.12)}.za .zh{color:var(--amber)}
-.zr{background:rgba(251,113,133,.03);border-color:rgba(251,113,133,.12)}.zr .zh{color:var(--rose)}
-.zc{background:rgba(34,211,238,.03);border-color:rgba(34,211,238,.12)}.zc .zh{color:var(--cyan)}
-.z2{background:rgba(45,212,191,.03);border-color:rgba(45,212,191,.12)}.z2 .zh{color:var(--teal)}
-.zi{background:rgba(129,140,248,.03);border-color:rgba(129,140,248,.12)}.zi .zh{color:var(--indigo)}
-.zo{background:rgba(251,146,60,.03);border-color:rgba(251,146,60,.12)}.zo .zh{color:var(--orange)}
-.zs{background:rgba(148,163,184,.03);border-color:rgba(148,163,184,.12)}.zs .zh{color:var(--slate)}
-
-/* ── Accordion / Details ── */
-details{margin-bottom:var(--sp-xs)}
-details summary{cursor:pointer;padding:var(--sp-sm) var(--sp-md);background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.05);border-radius:var(--radius-sm);font-size:var(--fs-base);font-weight:600;display:flex;align-items:center;gap:var(--sp-sm);transition:all .2s;list-style:none;min-height:44px}
+/* ── Accordion ── */
+details{margin-bottom:6px}
+details summary{cursor:pointer;padding:var(--sp-sm) var(--sp-md);background:var(--elevated);border:1px solid var(--border);border-radius:var(--r-sm);font-size:var(--fs-sm);font-weight:500;display:flex;align-items:center;gap:var(--sp-sm);transition:all .15s var(--ease);list-style:none;min-height:44px;color:var(--tx)}
 details summary::-webkit-details-marker{display:none}
-details summary::before{content:'\25B6';width:22px;height:22px;border-radius:7px;background:rgba(255,255,255,.04);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:8px;line-height:22px;text-align:center;transition:transform .25s ease;padding-left:2px}
-details[open] summary::before{transform:rotate(90deg)}
-details[open] summary{background:rgba(255,255,255,.03);border-color:rgba(255,255,255,.07);border-radius:var(--radius-sm) var(--radius-sm) 0 0}
-details summary:hover{background:rgba(255,255,255,.04);border-color:rgba(255,255,255,.08)}
-details summary .stag{margin-left:auto;font-size:var(--fs-2xs);font-weight:600;padding:2px 8px;border-radius:8px;font-family:'JetBrains Mono',monospace;flex-shrink:0}
-details .det{padding:var(--sp-md);background:rgba(0,0,0,.15);border:1px solid rgba(255,255,255,.04);border-top:0;border-radius:0 0 var(--radius-sm) var(--radius-sm);font-size:var(--fs-sm);color:var(--tx2);line-height:1.75}
+details summary::before{content:'';width:6px;height:6px;border-right:1.5px solid var(--tx3);border-bottom:1.5px solid var(--tx3);transform:rotate(-45deg);transition:transform .2s var(--ease);flex-shrink:0;margin-left:2px}
+details[open] summary::before{transform:rotate(45deg)}
+details[open] summary{background:var(--overlay);border-color:var(--border-hover);border-radius:var(--r-sm) var(--r-sm) 0 0}
+details summary:hover{border-color:var(--border-hover);background:var(--overlay)}
+details summary .stag{margin-left:auto;font-size:var(--fs-2xs);font-weight:500;padding:2px 8px;border-radius:6px;font-family:'JetBrains Mono',monospace;flex-shrink:0;background:rgba(255,255,255,.04);color:var(--tx3);border:1px solid var(--border);white-space:nowrap}
+details summary .stag-hi{background:rgba(255,255,255,.08);color:var(--tx2)}
+details .det{padding:var(--sp-md);background:var(--elevated);border:1px solid var(--border);border-top:0;border-radius:0 0 var(--r-sm) var(--r-sm);font-size:var(--fs-sm);color:var(--tx2);line-height:1.8}
 details .det strong{color:var(--tx);font-weight:600}
-details .det ul{margin:var(--sp-xs) 0;padding-left:var(--sp-lg)}
-details .det li{margin-bottom:var(--sp-2xs)}
-details .det ol{margin:var(--sp-xs) 0;padding-left:var(--sp-lg)}
-details .det ol li{margin-bottom:var(--sp-2xs)}
+details .det ul{margin:var(--sp-sm) 0;padding-left:var(--sp-lg)}
+details .det li{margin-bottom:4px}
+details .det ol{margin:var(--sp-sm) 0;padding-left:var(--sp-lg)}
+details .det ol li{margin-bottom:4px}
 
-/* ── Status dots ── */
-.d{width:8px;height:8px;border-radius:50%;flex-shrink:0;display:inline-block}
-.dg{background:var(--green);box-shadow:0 0 8px rgba(74,222,128,.4)}
-.da{background:var(--amber);box-shadow:0 0 8px rgba(251,191,36,.4)}
-.dr{background:var(--rose);box-shadow:0 0 8px rgba(251,113,133,.4)}
-.db{background:var(--blue);box-shadow:0 0 8px rgba(96,165,250,.4)}
+/* ── Status dots (functional only) ── */
+.d{width:7px;height:7px;border-radius:50%;flex-shrink:0;display:inline-block}
+.dg{background:var(--green)}
+.da{background:var(--amber)}
+.dr{background:var(--red)}
 
 /* ── Tags ── */
-.t{display:inline-block;font-size:var(--fs-2xs);font-weight:600;padding:2px 6px;border-radius:6px;margin:2px;font-family:'JetBrains Mono',monospace}
-.tp{background:rgba(167,139,250,.1);color:var(--purple);border:1px solid rgba(167,139,250,.15)}
-.tb{background:rgba(96,165,250,.1);color:var(--blue);border:1px solid rgba(96,165,250,.15)}
-.tg{background:rgba(74,222,128,.1);color:var(--green);border:1px solid rgba(74,222,128,.15)}
-.ta{background:rgba(251,191,36,.1);color:var(--amber);border:1px solid rgba(251,191,36,.15)}
-.tr{background:rgba(251,113,133,.1);color:var(--rose);border:1px solid rgba(251,113,133,.15)}
-.tc{background:rgba(34,211,238,.1);color:var(--cyan);border:1px solid rgba(34,211,238,.15)}
-.to{background:rgba(251,146,60,.1);color:var(--orange);border:1px solid rgba(251,146,60,.15)}
+.stag-kill{background:rgba(239,68,68,.1);color:#f87171;border-color:rgba(239,68,68,.15)}
 
 /* ── Tables ── */
-.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:var(--radius-xs);margin:var(--sp-xs) 0;position:relative}
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:var(--r-sm);margin:var(--sp-sm) 0;position:relative}
 .mt{width:100%;border-collapse:collapse;font-size:var(--fs-xs);margin:0}
-.mt th{text-align:left;padding:var(--sp-2xs) var(--sp-sm);border-bottom:1px solid rgba(255,255,255,.06);color:var(--tx3);font-weight:600;font-size:var(--fs-2xs);text-transform:uppercase;letter-spacing:.7px;white-space:nowrap}
-.mt td{padding:var(--sp-2xs) var(--sp-sm);color:var(--tx2);border-bottom:1px solid rgba(255,255,255,.025)}
+.mt th{text-align:left;padding:8px 10px;border-bottom:1px solid var(--border-strong);color:var(--tx3);font-weight:600;font-size:var(--fs-2xs);text-transform:uppercase;letter-spacing:.7px;white-space:nowrap}
+.mt td{padding:6px 10px;color:var(--tx2);border-bottom:1px solid var(--border)}
 .mt td:first-child{color:var(--tx);font-weight:500}
-.mt tr{transition:background .15s}
+.mt tr{transition:background .15s var(--ease)}
 .mt tr:hover td{background:rgba(255,255,255,.02)}
-.sc{text-align:center;font-weight:700;font-size:var(--fs-sm)}
-.sc-g{color:var(--green)}.sc-a{color:var(--amber)}.sc-r{color:var(--rose)}
-
-/* ── Progress ── */
-.pb{width:100%;height:5px;background:rgba(255,255,255,.04);border-radius:6px;overflow:hidden;margin:var(--sp-2xs) 0}
-.pf{height:100%;border-radius:6px}
+.sc{text-align:center;font-weight:600;font-size:var(--fs-sm)}
+.sc-g{color:var(--green)}.sc-a{color:var(--amber)}.sc-r{color:var(--red)}
 
 /* ── Pipeline ── */
-.pipe{display:flex;align-items:center;gap:var(--sp-xs);flex-wrap:wrap;margin:var(--sp-md) 0}
-.ps{border-radius:var(--radius-sm);padding:var(--sp-sm) var(--sp-md);text-align:center;flex:1;min-width:0;font-size:var(--fs-sm);font-weight:600;transition:transform .15s}
-.ps:hover{transform:translateY(-1px)}
-.ps small{font-weight:400;color:var(--tx2);font-size:var(--fs-xs)}
-.arrow{color:var(--tx3);font-size:var(--fs-md);flex-shrink:0}
+.pipe{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:var(--sp-md) 0}
+.ps{background:var(--elevated);border:1px solid var(--border);border-radius:var(--r-sm);padding:var(--sp-sm) var(--sp-md);text-align:center;flex:1;min-width:0;font-size:var(--fs-sm);font-weight:600;transition:border-color .15s var(--ease)}
+.ps:hover{border-color:var(--border-hover)}
+.ps small{font-weight:400;color:var(--tx3);font-size:var(--fs-2xs);display:block;margin-top:2px}
+.arrow{color:var(--tx4);font-size:var(--fs-base);flex-shrink:0}
 
 /* ── Highlight boxes ── */
-.hbox{border-radius:var(--radius-sm);padding:var(--sp-md);margin:var(--sp-2xs) 0;font-size:var(--fs-sm);line-height:1.65}
-.hbox strong{display:block;margin-bottom:4px}
-.hbox-p{background:rgba(167,139,250,.03);border:1px solid rgba(167,139,250,.1)}
-.hbox-b{background:rgba(96,165,250,.03);border:1px solid rgba(96,165,250,.1)}
-.hbox-g{background:rgba(74,222,128,.03);border:1px solid rgba(74,222,128,.1)}
-.hbox-a{background:rgba(251,191,36,.03);border:1px solid rgba(251,191,36,.1)}
-.hbox-r{background:rgba(251,113,133,.03);border:1px solid rgba(251,113,133,.1)}
+.hbox{border-radius:var(--r-sm);padding:var(--sp-md);margin:4px 0;font-size:var(--fs-sm);line-height:1.7;background:var(--elevated);border:1px solid var(--border);border-left:2px solid var(--border-strong)}
+.hbox strong{display:block;margin-bottom:2px;color:var(--tx)}
+.hbox-critical{border-left-color:rgba(239,68,68,.4)}
+.hbox-warning{border-left-color:rgba(234,179,8,.3)}
+.hbox-info{border-left-color:rgba(255,255,255,.12)}
 
-/* ── Hero intro ── */
-.hero{text-align:center;padding:var(--sp-xl) 0 var(--sp-lg)}
-.hero h1{font-size:var(--fs-hero);font-weight:900;letter-spacing:-2px;margin-bottom:var(--sp-xs)}
-.hero h1 b{background:linear-gradient(135deg,var(--purple),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.hero p{font-size:var(--fs-base);color:var(--tx2);max-width:720px;margin:0 auto;line-height:1.75}
-.hero-sub{margin-top:var(--sp-xs);font-size:var(--fs-sm) !important;color:var(--tx3) !important}
-.hero .stats{display:flex;justify-content:center;gap:var(--sp-xs);margin-top:var(--sp-xl);flex-wrap:wrap}
-.hero .stat{text-align:center;background:var(--s1);border:1px solid var(--bd);border-radius:var(--radius-sm);padding:var(--sp-sm) var(--sp-md);min-width:0;flex:1 1 auto;max-width:160px;transition:border-color .2s}
-.hero .stat:hover{border-color:var(--bd2)}
-.hero .stat .n{font-size:var(--fs-xl);font-weight:900;font-family:'JetBrains Mono',monospace}
-.hero .stat .l{font-size:var(--fs-2xs);color:var(--tx3);text-transform:uppercase;letter-spacing:1px;margin-top:2px}
+/* ── Script cards ── */
+.script-card{padding:var(--sp-sm) var(--sp-md);background:var(--elevated);border:1px solid var(--border);border-radius:var(--r-sm);transition:border-color .15s var(--ease)}
+.script-card:hover{border-color:var(--border-hover)}
+.script-label{font-weight:600;font-size:var(--fs-sm);margin-bottom:4px;color:var(--tx)}
+.script-list{font-size:var(--fs-2xs);color:var(--tx2);line-height:1.8}
+.script-list strong{color:var(--tx);font-weight:500}
+.footer-note{text-align:center;margin-top:var(--sp-md);font-size:var(--fs-2xs);color:var(--tx3)}
 
-/* ── Script cards (Sous le capot section) ── */
-.script-card{padding:var(--sp-sm) var(--sp-md);background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.05);border-radius:var(--radius-sm)}
-.script-label{font-weight:700;font-size:var(--fs-sm);margin-bottom:var(--sp-2xs)}
-.script-list{font-size:var(--fs-xs);color:var(--tx2);line-height:1.7}
-.script-list strong{color:var(--tx)}
-.footer-note{text-align:center;margin-top:var(--sp-md);font-size:var(--fs-xs);color:var(--tx3)}
+/* ── Client rules ── */
+.rules-detail{font-size:var(--fs-2xs);line-height:1.9}
+.rules-detail ul{margin:var(--sp-xs) 0;padding-left:var(--sp-md)}
 
-/* ── Client rules detail ── */
-.rules-detail{font-size:var(--fs-xs);line-height:1.8}
-.rules-detail ul{margin:var(--sp-2xs) 0;padding-left:var(--sp-md)}
+/* ── Scrollbar ── */
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:rgba(255,255,255,.08);border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:rgba(255,255,255,.14)}
 
-/* ── Smooth scrollbar ── */
-::-webkit-scrollbar{width:8px}
-::-webkit-scrollbar-track{background:var(--bg)}
-::-webkit-scrollbar-thumb{background:var(--bd);border-radius:4px}
-::-webkit-scrollbar-thumb:hover{background:var(--bd2)}
-
-/* ── Responsive: Tablet (<=900px) ── */
+/* ── Responsive: Tablet ── */
 @media(max-width:900px){
   .sub{display:none}
-  .pipe{flex-direction:column;gap:var(--sp-2xs)}
-  .pipe .arrow{transform:rotate(90deg)}
+  .pipe{flex-direction:column;gap:4px}
+  .pipe .arrow{transform:rotate(90deg);font-size:var(--fs-sm)}
   .ps{width:100%;min-width:0}
 }
-
-/* ── Responsive: Mobile (<=600px) ── */
+/* ── Responsive: Mobile ── */
 @media(max-width:600px){
   .kpis{gap:3px}
-  .k{padding:3px 6px}
-  .k .n{font-size:var(--fs-xs)}
-  .k .l{font-size:8px;letter-spacing:.3px}
-  .hero .stat{max-width:none;padding:var(--sp-xs) var(--sp-sm)}
-
-  /* Mobile table: sticky first column + scroll hint */
-  .table-wrap::after{content:'\2190 scroll \2192';display:block;text-align:center;font-size:var(--fs-2xs);color:var(--tx3);padding:4px 0 0;opacity:.6}
-  .mt td:first-child,.mt th:first-child{position:sticky;left:0;z-index:1;background:rgba(12,12,18,.97)}
+  .k{padding:3px 7px}
+  .k .n{font-size:var(--fs-2xs)}
+  .k .l{font-size:9px}
+  .hero .stat{max-width:none;padding:var(--sp-sm)}
+  .table-wrap::after{content:'\2190 scroll \2192';display:block;text-align:center;font-size:var(--fs-2xs);color:var(--tx4);padding:6px 0 0}
+  .mt td:first-child,.mt th:first-child{position:sticky;left:0;z-index:1;background:var(--surface)}
   .mt td,.mt th{white-space:nowrap}
-
-  /* Reduce glass blur on mobile for perf */
-  .zone{backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
-  #bar{backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+  details summary .stag{display:none}
 }
-
-/* ── Responsive: Small phones (<=380px) ── */
+/* ── Responsive: Small ── */
 @media(max-width:380px){
   .kpis{display:none}
 }
-
 /* ── Reduced motion ── */
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.01ms !important;transition-duration:.01ms !important}
 }
-
-/* ── Fallback for no backdrop-filter ── */
+/* ── Fallback ── */
 @supports not (backdrop-filter:blur(1px)){
-  .zone{background:rgba(12,12,18,.95)}
-  #bar{background:rgba(5,5,7,.97)}
+  #bar{background:rgba(9,9,11,.98)}
 }
 </style>
 </head>
@@ -258,7 +231,7 @@ details .det ol li{margin-bottom:var(--sp-2xs)}
 <!-- ═══════════ GATE ═══════════ -->
 <div id="gate">
   <h1>BOTE <b>OS</b></h1>
-  <p>L'infrastructure IA de BOTE Agency.<br>Cette carte explique ce qu'on a construit, a quoi ca sert, et comment l'equipe va s'en servir.</p>
+  <p>L'infrastructure IA de BOTE Agency.<br>Acces reserve a l'equipe.</p>
   <input type="password" id="pw" placeholder="Code d'acces" autocomplete="off" autofocus>
 </div>
 
@@ -266,468 +239,367 @@ details .det ol li{margin-bottom:var(--sp-2xs)}
 <div id="bar">
   <div style="display:flex;align-items:center;flex-shrink:0">
     <h1>BOTE <b>OS</b></h1>
-    <span class="sub">AI Ecosystem Map &mdash; 25 fev. 2026</span>
+    <span class="sub">v2 &mdash; fev. 2026</span>
   </div>
   <div class="kpis">
-    <div class="k"><span class="n" style="color:var(--blue)">11</span><span class="l">Scripts</span></div>
-    <div class="k"><span class="n" style="color:var(--green)">9</span><span class="l">Skills</span></div>
-    <div class="k"><span class="n" style="color:var(--cyan)">6</span><span class="l">APIs</span></div>
-    <div class="k"><span class="n" style="color:var(--amber)">50</span><span class="l">Docs</span></div>
-    <div class="k"><span class="n" style="color:var(--rose)">15</span><span class="l">Clients</span></div>
+    <div class="k"><span class="n">11</span><span class="l">Scripts</span></div>
+    <div class="k"><span class="n">9</span><span class="l">Skills</span></div>
+    <div class="k"><span class="n">6</span><span class="l">APIs</span></div>
+    <div class="k"><span class="n">50</span><span class="l">Docs</span></div>
+    <div class="k"><span class="n">15</span><span class="l">Clients</span></div>
   </div>
 </div>
 
-<!-- ═══════════ MAIN CONTENT ═══════════ -->
+<!-- ═══════════ MAIN ═══════════ -->
 <div id="main">
 
-<!-- HERO -->
 <div class="hero">
   <h1>BOTE <b>OS</b></h1>
-  <p>BOTE OS connecte tous nos outils (Klaviyo, Asana, Figma, tl;dv) a une intelligence artificielle (Claude) que <strong>toute l'equipe</strong> peut utiliser. PM, production, strat : chacun accede aux donnees clients, a la knowledge base, et aux automatisations depuis un seul endroit. Des audits, du copy, des rapports, de la QA en quelques minutes au lieu de quelques heures.</p>
-  <p class="hero-sub">Cliquez sur chaque element pour voir le detail : a quoi ca sert, comment ca marche, et comment vous allez l'utiliser.</p>
+  <p>L'OS connecte Klaviyo, Asana, Figma et tl;dv a Claude. PM, production, strat : chacun accede aux donnees clients, a la knowledge base et aux automatisations depuis un seul endroit.</p>
+  <p class="hero-sub">Cliquez sur chaque element pour voir le detail.</p>
   <div class="stats">
-    <div class="stat"><div class="n" style="color:var(--blue)">11</div><div class="l">Scripts Python</div></div>
-    <div class="stat"><div class="n" style="color:var(--green)">9</div><div class="l">Slash Commands</div></div>
-    <div class="stat"><div class="n" style="color:var(--cyan)">6</div><div class="l">APIs Connectees</div></div>
-    <div class="stat"><div class="n" style="color:var(--amber)">50</div><div class="l">Docs Internes</div></div>
-    <div class="stat"><div class="n" style="color:var(--rose)">15</div><div class="l">Clients Actifs</div></div>
-    <div class="stat"><div class="n" style="color:var(--teal)">79</div><div class="l">Learnings</div></div>
-    <div class="stat"><div class="n" style="color:var(--indigo)">7,431</div><div class="l">Lignes de Code</div></div>
+    <div class="stat"><div class="n">11</div><div class="l">Scripts</div></div>
+    <div class="stat"><div class="n">9</div><div class="l">Commands</div></div>
+    <div class="stat"><div class="n">6</div><div class="l">APIs</div></div>
+    <div class="stat"><div class="n">50</div><div class="l">Docs</div></div>
+    <div class="stat"><div class="n">15</div><div class="l">Clients</div></div>
+    <div class="stat"><div class="n">79</div><div class="l">Learnings</div></div>
+    <div class="stat"><div class="n">7,431</div><div class="l">Lignes</div></div>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════ -->
-<!-- SECTION 1: COMMENT CA MARCHE          -->
-<!-- ══════════════════════════════════════ -->
-<div class="sh sh-purple"><h2>1 &mdash; Comment ca marche</h2></div>
+<!-- SECTION 1 -->
+<div class="sh"><h2>01 &mdash; Vue d'ensemble</h2></div>
 
-<div class="zone zp" style="margin-bottom:var(--sp-md)">
-  <div class="zh">Le principe en 30 secondes</div>
-  <div class="zd">L'OS fonctionne comme un assistant super-specialise que <strong>toute l'equipe</strong> peut utiliser. On lui parle dans le terminal (Claude Code), et il a acces a tout : les comptes Klaviyo de chaque client, les tasks Asana, les transcripts de tous les calls clients, les commentaires Figma, et une base de connaissances interne de 50 documents sur le CRM, la retention, les flows, etc. PM, production, strat : chacun peut s'en servir pour son scope.</div>
-  <div class="hbox hbox-p">
-    <div class="pipe">
-      <div class="ps" style="background:rgba(34,211,238,.08);border:1px solid rgba(34,211,238,.2);color:var(--cyan)">Sources<br><small>Klaviyo, Asana, tl;dv, Figma, YouTube</small></div>
-      <div class="arrow">&rarr;</div>
-      <div class="ps" style="background:rgba(167,139,250,.08);border:1px solid rgba(167,139,250,.2);color:var(--purple)">Cerveau<br><small>Claude Code + Knowledge Base</small></div>
-      <div class="arrow">&rarr;</div>
-      <div class="ps" style="background:rgba(74,222,128,.08);border:1px solid rgba(74,222,128,.2);color:var(--green)">Output<br><small>Copy, audits, PDFs, analyses</small></div>
-      <div class="arrow">&rarr;</div>
-      <div class="ps" style="background:rgba(251,113,133,.08);border:1px solid rgba(251,113,133,.2);color:var(--rose)">Livraison<br><small>Telegram, Asana, Slack</small></div>
-    </div>
+<div class="zone" style="margin-bottom:var(--sp-md)">
+  <div class="zh">Le principe</div>
+  <div class="zd">L'OS fonctionne comme un assistant specialise. On lui parle dans le terminal, il a acces a tout : comptes Klaviyo, tasks Asana, transcripts de calls, commentaires Figma, et 50 documents internes. Audits, copy, rapports, QA en quelques minutes.</div>
+  <div class="pipe">
+    <div class="ps">Sources<small>Klaviyo, Asana, tl;dv, Figma</small></div>
+    <div class="arrow">&rarr;</div>
+    <div class="ps">Cerveau<small>Claude + Knowledge Base</small></div>
+    <div class="arrow">&rarr;</div>
+    <div class="ps">Output<small>Copy, audits, PDFs, analyses</small></div>
+    <div class="arrow">&rarr;</div>
+    <div class="ps">Livraison<small>Telegram, Asana, Slack</small></div>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════ -->
-<!-- SECTION 2: LES COMMANDES (SKILLS)     -->
-<!-- ══════════════════════════════════════ -->
-<div class="sh sh-green"><h2>2 &mdash; Les commandes (slash commands)</h2></div>
+<!-- SECTION 2 -->
+<div class="sh"><h2>02 &mdash; Slash commands</h2></div>
 
-<div class="zone zg">
-  <div class="zh">Slash Commands</div>
-  <div class="zd">Les slash commands sont des <strong>raccourcis</strong> qui lancent des operations complexes en une ligne. On tape la commande dans Claude Code et l'OS fait le reste : il charge les bons fichiers, appelle les bons scripts, et produit le resultat. C'est l'interface entre l'equipe et toute l'infrastructure.</div>
+<div class="zone">
+  <div class="zh">Les commandes</div>
+  <div class="zd">Raccourcis qui lancent des operations complexes en une ligne. C'est l'interface entre l'equipe et l'infrastructure.</div>
 
   <details open>
-    <summary><span class="d dg"></span> <strong>/bote</strong> ou <strong>/bote {slug}</strong> &mdash; Charger le contexte complet <span class="stag tg">66 lignes</span></summary>
+    <summary><span class="d dg"></span> <strong>/bote</strong> ou <strong>/bote {slug}</strong> &mdash; Charger le contexte <span class="stag">66 L</span></summary>
     <div class="det">
-      <strong>C'est la commande de base.</strong> Elle charge tout le contexte BOTE pour etre operationnel immediatement.
+      <strong>La commande de base.</strong> Charge tout le contexte BOTE pour etre operationnel.
       <ul>
-        <li><code>/bote</code> : charge la config generale, les learnings, les scripts disponibles</li>
-        <li><code>/bote hygee</code> : charge tout le contexte Hygee (identity, client-rules, figma-comments, segmentation, tasks Asana, derniers calls tl;dv)</li>
-        <li><code>/bote status</code> : dashboard de tous les clients (tasks, projets)</li>
-        <li><code>/bote team</code> : tasks du jour par membre de l'equipe</li>
+        <li><code>/bote</code> &mdash; config generale, learnings, scripts</li>
+        <li><code>/bote hygee</code> &mdash; contexte Hygee complet (identity, rules, Figma, Asana, calls)</li>
+        <li><code>/bote status</code> &mdash; dashboard tous les clients</li>
+        <li><code>/bote team</code> &mdash; tasks du jour par membre</li>
       </ul>
-      <strong>En pratique :</strong> C'est la premiere commande qu'on tape en debut de journee ou avant de travailler sur un client.
+      Premiere commande en debut de journee ou avant de travailler sur un client.
     </div>
   </details>
 
   <details>
-    <summary><span class="d dg"></span> <strong>/audit-client {slug}</strong> &mdash; Audit complet <span class="stag tg">174 lignes</span></summary>
+    <summary><span class="d dg"></span> <strong>/audit-client {slug}</strong> &mdash; Audit complet <span class="stag">174 L</span></summary>
     <div class="det">
-      <strong>Pipeline automatise en 7 etapes :</strong>
+      <strong>Pipeline en 7 etapes :</strong>
       <ol>
-        <li>Extraire toutes les donnees Klaviyo du client (flows, segments, campaigns)</li>
-        <li>Lancer 4 agents de recherche en parallele (site web, fondateurs, concurrents, reviews)</li>
-        <li>Remplir la fiche d'identite de la marque (copyhub/brand/identity.md)</li>
-        <li>Analyser les donnees Klaviyo (diagnostic, gaps, benchmarks)</li>
-        <li>Proposer 20 sujets de newsletters + idees de contenu fondateur</li>
-        <li>Generer un PDF propre (logo BOTE, tableaux, couleurs)</li>
+        <li>Extraire les donnees Klaviyo (flows, segments, campaigns)</li>
+        <li>4 agents de recherche en parallele (site, fondateurs, concurrents, reviews)</li>
+        <li>Remplir la fiche d'identite de marque</li>
+        <li>Analyser Klaviyo (diagnostic, gaps, benchmarks)</li>
+        <li>Proposer 20 sujets de newsletters</li>
+        <li>Generer un PDF propre</li>
         <li>Envoyer sur Telegram</li>
       </ol>
-      <strong>En pratique :</strong> On passe d'un prospect a un audit complet livrable en quelques heures au lieu de plusieurs jours.
+      D'un prospect a un audit livrable en quelques heures.
     </div>
   </details>
 
   <details>
-    <summary><span class="d dg"></span> <strong>/review-mining</strong> &mdash; Extraire la voix du client <span class="stag tg">287 lignes</span></summary>
+    <summary><span class="d dg"></span> <strong>/review-mining</strong> &mdash; Voix du client <span class="stag">287 L</span></summary>
     <div class="det">
-      <strong>Analyse des reviews clients en 12 dimensions :</strong> Pain Points, Solutions Echouees, Declencheurs d'Achat, Anxietes, Criteres de Choix, Resultats Desires, Benefices Constates, Transformation, Benefices Inattendus, Expressions Emotionnelles, Langage Specifique, Preuve Sociale.
-      <ul>
-        <li>Regle critique : <strong>100% des verbatims sont copies mot pour mot</strong>, jamais reformules</li>
-        <li>Produit 2 fichiers : un <strong>contexte-brand</strong> (pour les copywriters) et un <strong>rapport-client</strong> (factuel, a envoyer au client)</li>
-        <li>Chaque stat est montree avec le calcul visible (ex: "32/156 = 20.5%")</li>
-      </ul>
-      <strong>En pratique :</strong> On donne un fichier de reviews (Trustpilot, Amazon, Google) et on obtient tout le material pour ecrire du copy qui parle comme les vrais clients.
+      Analyse des reviews en 12 dimensions. Regle : 100% des verbatims copies mot pour mot. Produit un contexte-brand (copywriters) et un rapport-client (factuel). Chaque stat avec le calcul visible.
     </div>
   </details>
 
   <details>
-    <summary><span class="d dg"></span> <strong>/youtube-extract {url}</strong> &mdash; Veille marketing automatisee <span class="stag tg">172 lignes</span></summary>
+    <summary><span class="d dg"></span> <strong>/youtube-extract {url}</strong> &mdash; Veille marketing <span class="stag">172 L</span></summary>
     <div class="det">
-      <strong>6 etapes :</strong> telecharger &rarr; transcrire (Whisper) &rarr; nettoyer &rarr; analyser (resume + learnings + verbatims) &rarr; sauvegarder dans la KB &rarr; mettre a jour les global-learnings.
-      <br><br><strong>En pratique :</strong> On donne une URL YouTube d'une video marketing (Josh Tay, NLE, etc.) et les meilleures idees sont integrees dans notre base de connaissances automatiquement.
+      Telecharger, transcrire (Whisper), nettoyer, analyser, sauvegarder dans la KB, mettre a jour les global-learnings. Les meilleures idees integrees automatiquement.
     </div>
   </details>
 
   <details>
-    <summary><span class="d dr"></span> <strong style="text-decoration:line-through;opacity:.5">/frenchmush</strong> &mdash; Supprime <span class="stag tr">KILL</span></summary>
+    <summary><span class="d dr"></span> <strong style="text-decoration:line-through;opacity:.4">/frenchmush</strong> &mdash; Supprime <span class="stag stag-kill">KILL</span></summary>
     <div class="det">
-      Skill legacy, plus utilise. Sera remplace par <strong>/copy {slug}</strong> (voir roadmap) : un skill generique qui charge automatiquement le copyhub du client demande, quel qu'il soit. Plus besoin d'un skill par marque pour le copy de base.
+      Remplace par <strong>/copy {slug}</strong> (voir roadmap) : un skill generique qui charge le copyhub du client, quel qu'il soit.
     </div>
   </details>
 
   <details>
-    <summary><span class="d dg"></span> <strong>/klaviyo-audit</strong>, <strong>/figma-sync</strong>, <strong>/miro-board</strong>, <strong>/miro-cj-map</strong> <span class="stag tg">4 skills</span></summary>
+    <summary><span class="d dg"></span> <strong>/klaviyo-audit</strong>, <strong>/figma-sync</strong>, <strong>/miro-*</strong> <span class="stag">4 skills</span></summary>
     <div class="det">
       <ul>
-        <li><strong>/klaviyo-audit {slug}</strong> (52 L) : audit Klaviyo uniquement (pas l'audit complet) &mdash; flows, gaps, performance vs benchmarks, top 5 recommandations</li>
-        <li><strong>/figma-sync {slug}</strong> (61 L) : extrait les commentaires Figma et met a jour client-rules.md + figma-comments.md</li>
-        <li><strong>/miro-board</strong> (41 L) : transforme une strategie de campagnes en board Miro visuel (phases, segments, couleurs)</li>
-        <li><strong>/miro-cj-map</strong> (61 L) : genere une Customer Journey Map sur Miro avec les flows par canal et leur statut</li>
+        <li><strong>/klaviyo-audit {slug}</strong> &mdash; audit Klaviyo : flows, gaps, benchmarks, top 5 recommandations</li>
+        <li><strong>/figma-sync {slug}</strong> &mdash; sync commentaires Figma, MAJ client-rules.md</li>
+        <li><strong>/miro-board</strong> &mdash; strategie de campagnes en board Miro visuel</li>
+        <li><strong>/miro-cj-map</strong> &mdash; Customer Journey Map sur Miro</li>
       </ul>
     </div>
   </details>
 </div>
 
-<!-- ══════════════════════════════════════ -->
-<!-- SECTION 3: LA BASE DE CONNAISSANCES   -->
-<!-- ══════════════════════════════════════ -->
-<div class="sh sh-amber"><h2>3 &mdash; La base de connaissances</h2></div>
+<!-- SECTION 3 -->
+<div class="sh"><h2>03 &mdash; Knowledge base</h2></div>
 
 <div class="row r2">
-  <div class="zone za">
+  <div class="zone">
     <div class="zh">50 documents, 1,995 chunks</div>
-    <div class="zd">C'est la <strong>memoire de l'agence</strong>. Tout ce qu'on a appris sur Klaviyo, la retention, les flows, les bonnes pratiques, les erreurs a eviter, plus les meilleurs podcasts DTC et le systeme LinkedIn. Quand l'OS ecrit un audit ou du copy, il puise dans cette base pour donner des recommandations basees sur <strong>nos connaissances a nous</strong>, pas sur des reponses generiques.</div>
+    <div class="zd">La memoire de l'agence. Tout ce qu'on sait sur Klaviyo, la retention, les flows, les podcasts DTC, le systeme LinkedIn. L'OS puise dedans pour des recommandations basees sur nos connaissances, pas des reponses generiques.</div>
 
     <details>
-      <summary><span class="d dg"></span> Docs Klaviyo (8 fichiers, 6,887 lignes)</summary>
-      <div class="det">Reference complete de l'API Klaviyo, des flows, des segments, des campaigns, de la delivrabilite, des fonctionnalites avancees (K:AI, predictive analytics), des integrations et des formulaires. C'est ce qui permet a l'OS de donner des recommandations Klaviyo precises et a jour.</div>
+      <summary>Docs Klaviyo <span class="stag">8 fichiers &middot; 6,887 L</span></summary>
+      <div class="det">API complete, flows, segments, campaigns, delivrabilite, K:AI, predictive analytics, integrations. Recommandations Klaviyo precises et a jour.</div>
     </details>
     <details>
-      <summary><span class="d dg"></span> Podcasts DTC (7 fichiers, 4,565 lignes)</summary>
-      <div class="det">Transcripts indexes de <strong>Operators</strong> (Sean Frank/Ridge, HexClad, Simple Modern), <strong>Marketing Operators</strong> (Connor MacDonald, Cody Plofker, Jones Road), <strong>Finance Operators</strong> (Drew Fallon, M&A, unit economics), <strong>Drew Fallon YouTube</strong> (RXBar $600M, Simple Mills $795M, Jolie $28M), <strong>Common Thread Collective</strong>. Un master index croise toutes les sources par pilier. C'est le savoir DTC le plus concentre qu'on ait.</div>
+      <summary>Podcasts DTC <span class="stag">7 fichiers &middot; 4,565 L</span></summary>
+      <div class="det"><strong>Operators</strong> (Ridge, HexClad, Simple Modern), <strong>Marketing Operators</strong> (Connor MacDonald, Cody Plofker, Jones Road), <strong>Finance Operators</strong> (Drew Fallon, M&A, unit economics), <strong>Drew Fallon YouTube</strong> (RXBar $600M, Jolie $28M), <strong>Common Thread</strong>. Master index croise par pilier.</div>
     </details>
     <details>
-      <summary><span class="d dg"></span> Transcripts YouTube (8 fichiers, 3,117 lignes)</summary>
-      <div class="det">Veille marketing : Josh Tay (NLE) sur la retention et l'incrementalite, Blue Sense sur le BFCM et la collaboration inter-agences, Fleek Marketing sur la zero party data, Big Growth Show sur le scaling d'agence. Source de nos 79 learnings.</div>
+      <summary>YouTube <span class="stag">8 fichiers &middot; 3,117 L</span></summary>
+      <div class="det">Josh Tay (NLE) sur retention et incrementalite, Blue Sense sur BFCM, Fleek sur zero party data, Big Growth Show sur scaling d'agence. Source des 79 learnings.</div>
     </details>
     <details>
-      <summary><span class="d dg"></span> Strategy & Operations (11 fichiers, 3,325 lignes)</summary>
-      <div class="det">Le CRM Retention Playbook (lifecycle, flows, segmentation, Gain-Logic-Fear, Product Hero), le playbook ecommerce REACH (paliers 0-3M/3-10M/10-50M), le lexique DTC complet, le workflow d'onboarding client, le guide de formation PM, la methode de reviews mining, le guide WhatsApp, et les best practices de prompting.</div>
+      <summary>Strategy & Operations <span class="stag">11 fichiers &middot; 3,325 L</span></summary>
+      <div class="det">CRM Retention Playbook, playbook ecommerce REACH (0-3M/3-10M/10-50M), lexique DTC, workflow client, formation PM, reviews mining, WhatsApp, prompting.</div>
     </details>
     <details>
-      <summary><span class="d dg"></span> LinkedIn (5 fichiers, 1,148 lignes)</summary>
-      <div class="det">Systeme complet de personal brand LinkedIn pour Martin : prompt ghostwriter (5 messages core, 12 formats, 6 piliers), guide de style (hybride Josh Tay x Alessandro), guide CRM/retention pour le contenu LinkedIn, banque de 100 hooks pre-valides, et learnings des sessions d'ecriture.</div>
+      <summary>LinkedIn <span class="stag">5 fichiers &middot; 1,148 L</span></summary>
+      <div class="det">Prompt ghostwriter (5 messages core, 12 formats, 6 piliers), guide de style, guide CRM/retention LinkedIn, 100 hooks pre-valides, learnings sessions.</div>
     </details>
     <details>
-      <summary><span class="d dg"></span> Tools & Audits (7 fichiers, 2,444 lignes)</summary>
-      <div class="det">Guides : generation PDF (LaTeX), generation d'images (Higgsfield), Miro boards, Asana. Audits existants : Dynveo (353 L) et FrenchMush (825 L) comme references.</div>
+      <summary>Tools & Audits <span class="stag">7 fichiers &middot; 2,444 L</span></summary>
+      <div class="det">PDF LaTeX, Higgsfield, Miro, Asana. Audits Dynveo et FrenchMush comme references.</div>
     </details>
     <details>
-      <summary><span class="d dg"></span> 79 Global Learnings</summary>
-      <div class="det">Extraits de 854 threads Figma (9 clients, 22,593 commentaires) + YouTube. Couvrent : design (epurer, coherence), copy (vocabulaire exact, CTA), strategie (pression commerciale, A/B testing), retention, subscription (optimiser order 3, billing reminder), incrementalite, zero party data, BFCM, et operations agence. C'est le savoir accumule de toute l'agence.</div>
+      <summary>79 Global Learnings</summary>
+      <div class="det">854 threads Figma, 9 clients, 22,593 commentaires. Design, copy, strategie, retention, subscription, incrementalite, BFCM, operations.</div>
     </details>
   </div>
 
-  <div class="zone za">
+  <div class="zone">
     <div class="zh">Regles par client</div>
-    <div class="zd">Chaque client a ses <strong>regles specifiques</strong> extraites de Figma et des calls. L'OS les connait et les respecte automatiquement quand il ecrit du copy ou fait un audit.</div>
-    <div class="hbox hbox-a rules-detail">
-      <strong style="color:var(--amber)">Exemples concrets :</strong>
+    <div class="zd">Chaque client a ses regles extraites de Figma et des calls. L'OS les respecte automatiquement.</div>
+    <div class="rules-detail" style="margin-top:var(--sp-sm)">
       <ul>
-        <li><strong>Hygee</strong> (Mattia) : Epurer, aerer. Coherence entre les emails d'un meme flow. Pas de pression commerciale.</li>
-        <li><strong>Cut By Fred</strong> (Lucille) : <strong>Tutoiement obligatoire</strong>. CTA creatifs ("J'offre la gamme Repair"). Pas de plain text.</li>
-        <li><strong>Dynveo</strong> (Laurie) : Tons verts. Copy engageante. Associations produits. Jamais "carence".</li>
-        <li><strong>Pureva</strong> (Adrien) : Precision technique. <strong>Pas de visuels IA</strong>. Pain points reels.</li>
-        <li><strong>Embryolisse</strong> (Laura) : Noms produits exacts ("Baume Couleur Stick 3 en 1"). A/B testing systematique.</li>
-        <li><strong>La Marque en Moins</strong> (Anna) : Bullet points. Fond vert. Validation obligatoire avant montage.</li>
-        <li><strong>FrenchMush</strong> (Audrey) : Attention aux doublons Skio/Shopify/WhatsApp. Hero product en priorite.</li>
-        <li><strong>Nala</strong> (Dan) : Storytelling. Urgence justifiee. Precision scientifique.</li>
-        <li><strong>So'Cup</strong> (Krystelle) : Direct, pas de superflu. Sujets sensibles a traiter avec soin.</li>
+        <li><strong>Hygee</strong> &mdash; Epurer, aerer. Coherence entre emails. Pas de pression commerciale.</li>
+        <li><strong>Cut By Fred</strong> &mdash; Tutoiement obligatoire. CTA creatifs. Pas de plain text.</li>
+        <li><strong>Dynveo</strong> &mdash; Tons verts. Copy engageante. Jamais "carence".</li>
+        <li><strong>Pureva</strong> &mdash; Precision technique. Pas de visuels IA.</li>
+        <li><strong>Embryolisse</strong> &mdash; Noms produits exacts. A/B testing systematique.</li>
+        <li><strong>La Marque en Moins</strong> &mdash; Bullet points. Fond vert. Validation obligatoire.</li>
+        <li><strong>FrenchMush</strong> &mdash; Doublons Skio/Shopify/WhatsApp. Hero product prioritaire.</li>
+        <li><strong>Nala</strong> &mdash; Storytelling. Urgence justifiee. Precision scientifique.</li>
+        <li><strong>So'Cup</strong> &mdash; Direct, pas de superflu. Sujets sensibles avec soin.</li>
       </ul>
     </div>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════ -->
-<!-- SECTION 4: MATRICE CLIENTS            -->
-<!-- ══════════════════════════════════════ -->
-<div class="sh sh-rose"><h2>4 &mdash; Matrice de completude</h2></div>
+<!-- SECTION 4 -->
+<div class="sh"><h2>04 &mdash; Matrice clients</h2></div>
 
-<div class="zone zr">
+<div class="zone">
   <div class="zh">15 clients &times; 7 dimensions</div>
-  <div class="zd">Pour chaque client, l'OS a besoin de 7 briques pour etre a 100%. Voici ou on en est. <span class="d dg" style="vertical-align:middle"></span> = fait &nbsp; <span class="d da" style="vertical-align:middle"></span> = partiel &nbsp; <span class="d dr" style="vertical-align:middle"></span> = manquant. <strong>Objectif : amener les 5 premiers clients a 100%.</strong></div>
+  <div class="zd">7 briques pour etre a 100%. <span class="d dg" style="vertical-align:middle"></span> fait &nbsp; <span class="d da" style="vertical-align:middle"></span> partiel &nbsp; <span class="d dr" style="vertical-align:middle"></span> manquant</div>
 
   <div class="table-wrap">
   <table class="mt">
-    <tr>
-      <th>Client</th>
-      <th style="text-align:center">Calls</th>
-      <th style="text-align:center">Copyhub</th>
-      <th style="text-align:center">Figma</th>
-      <th style="text-align:center">Audit</th>
-      <th style="text-align:center">Strategy</th>
-      <th style="text-align:center">Skill</th>
-      <th style="text-align:center">Score</th>
-    </tr>
-    <tr><td><strong>FrenchMush</strong></td><td class="sc sc-g">&#10003;</td><td class="sc sc-g">&#10003;</td><td class="sc sc-g">&#10003;</td><td class="sc sc-g">&#10003;</td><td class="sc sc-g">&#10003;</td><td class="sc sc-r">&times;</td><td class="sc sc-g"><strong>86%</strong></td></tr>
-    <tr><td>Humble+</td><td class="sc sc-g">&#10003;</td><td class="sc sc-g">&#10003;</td><td class="sc sc-g">&#10003;</td><td class="sc sc-g">&#10003;</td><td class="sc sc-g">&#10003;</td><td class="sc sc-r">&times;</td><td class="sc sc-g">83%</td></tr>
-    <tr><td>Dynveo</td><td class="sc sc-g">&#10003;</td><td class="sc sc-g">&#10003;</td><td class="sc sc-g">&#10003;</td><td class="sc sc-g">&#10003;</td><td class="sc sc-g">&#10003;</td><td class="sc sc-r">&times;</td><td class="sc sc-g">83%</td></tr>
-    <tr><td>Embryolisse</td><td class="sc sc-g">&#10003;</td><td class="sc sc-g">&#10003;</td><td class="sc sc-g">&#10003;</td><td class="sc sc-r">&times;</td><td class="sc sc-a">&sim;</td><td class="sc sc-r">&times;</td><td class="sc sc-a">58%</td></tr>
-    <tr><td>Hygee</td><td class="sc sc-g">&#10003;</td><td class="sc sc-g">&#10003;</td><td class="sc sc-g">&#10003;</td><td class="sc sc-r">&times;</td><td class="sc sc-a">&sim;</td><td class="sc sc-r">&times;</td><td class="sc sc-a">58%</td></tr>
-    <tr><td>Cut By Fred</td><td class="sc sc-g">&#10003;</td><td class="sc sc-g">&#10003;</td><td class="sc sc-g">&#10003;</td><td class="sc sc-r">&times;</td><td class="sc sc-r">&times;</td><td class="sc sc-r">&times;</td><td class="sc sc-a">50%</td></tr>
-    <tr><td>Pureva</td><td class="sc sc-g">&#10003;</td><td class="sc sc-g">&#10003;</td><td class="sc sc-g">&#10003;</td><td class="sc sc-r">&times;</td><td class="sc sc-r">&times;</td><td class="sc sc-r">&times;</td><td class="sc sc-a">50%</td></tr>
-    <tr><td>La Marque en Moins</td><td class="sc sc-g">&#10003;</td><td class="sc sc-g">&#10003;</td><td class="sc sc-g">&#10003;</td><td class="sc sc-r">&times;</td><td class="sc sc-r">&times;</td><td class="sc sc-r">&times;</td><td class="sc sc-a">50%</td></tr>
-    <tr><td>Nala pour Elle</td><td class="sc sc-g">&#10003;</td><td class="sc sc-g">&#10003;</td><td class="sc sc-g">&#10003;</td><td class="sc sc-r">&times;</td><td class="sc sc-r">&times;</td><td class="sc sc-r">&times;</td><td class="sc sc-a">50%</td></tr>
-    <tr><td>So'Cup</td><td class="sc sc-a">&sim;</td><td class="sc sc-g">&#10003;</td><td class="sc sc-g">&#10003;</td><td class="sc sc-r">&times;</td><td class="sc sc-r">&times;</td><td class="sc sc-r">&times;</td><td class="sc sc-a">42%</td></tr>
-    <tr><td>Alme Paris</td><td class="sc sc-g">&#10003;</td><td class="sc sc-g">&#10003;</td><td class="sc sc-r">&times;</td><td class="sc sc-r">&times;</td><td class="sc sc-r">&times;</td><td class="sc sc-r">&times;</td><td class="sc sc-r">33%</td></tr>
-    <tr><td>Respire</td><td class="sc sc-g">&#10003;</td><td class="sc sc-r">&times;</td><td class="sc sc-r">&times;</td><td class="sc sc-r">&times;</td><td class="sc sc-r">&times;</td><td class="sc sc-r">&times;</td><td class="sc sc-r">17%</td></tr>
-    <tr><td>LIVY</td><td class="sc sc-g">&#10003;</td><td class="sc sc-r">&times;</td><td class="sc sc-r">&times;</td><td class="sc sc-r">&times;</td><td class="sc sc-r">&times;</td><td class="sc sc-r">&times;</td><td class="sc sc-r">17%</td></tr>
-    <tr><td>Lialys</td><td class="sc sc-g">&#10003;</td><td class="sc sc-r">&times;</td><td class="sc sc-r">&times;</td><td class="sc sc-r">&times;</td><td class="sc sc-r">&times;</td><td class="sc sc-r">&times;</td><td class="sc sc-r">17%</td></tr>
-    <tr><td>Nuoro / Sync</td><td class="sc sc-r">&times;</td><td class="sc sc-r">&times;</td><td class="sc sc-r">&times;</td><td class="sc sc-r">&times;</td><td class="sc sc-r">&times;</td><td class="sc sc-r">&times;</td><td class="sc sc-r">0%</td></tr>
+    <tr><th>Client</th><th style="text-align:center">Calls</th><th style="text-align:center">Copyhub</th><th style="text-align:center">Figma</th><th style="text-align:center">Audit</th><th style="text-align:center">Strategy</th><th style="text-align:center">Skill</th><th style="text-align:center">Score</th></tr>
+    <tr><td><strong>FrenchMush</strong></td><td class="sc sc-g">&#10003;</td><td class="sc sc-g">&#10003;</td><td class="sc sc-g">&#10003;</td><td class="sc sc-g">&#10003;</td><td class="sc sc-g">&#10003;</td><td class="sc sc-r">&times;</td><td class="sc"><strong>86%</strong></td></tr>
+    <tr><td>Humble+</td><td class="sc sc-g">&#10003;</td><td class="sc sc-g">&#10003;</td><td class="sc sc-g">&#10003;</td><td class="sc sc-g">&#10003;</td><td class="sc sc-g">&#10003;</td><td class="sc sc-r">&times;</td><td class="sc">83%</td></tr>
+    <tr><td>Dynveo</td><td class="sc sc-g">&#10003;</td><td class="sc sc-g">&#10003;</td><td class="sc sc-g">&#10003;</td><td class="sc sc-g">&#10003;</td><td class="sc sc-g">&#10003;</td><td class="sc sc-r">&times;</td><td class="sc">83%</td></tr>
+    <tr><td>Embryolisse</td><td class="sc sc-g">&#10003;</td><td class="sc sc-g">&#10003;</td><td class="sc sc-g">&#10003;</td><td class="sc sc-r">&times;</td><td class="sc sc-a">&sim;</td><td class="sc sc-r">&times;</td><td class="sc">58%</td></tr>
+    <tr><td>Hygee</td><td class="sc sc-g">&#10003;</td><td class="sc sc-g">&#10003;</td><td class="sc sc-g">&#10003;</td><td class="sc sc-r">&times;</td><td class="sc sc-a">&sim;</td><td class="sc sc-r">&times;</td><td class="sc">58%</td></tr>
+    <tr><td>Cut By Fred</td><td class="sc sc-g">&#10003;</td><td class="sc sc-g">&#10003;</td><td class="sc sc-g">&#10003;</td><td class="sc sc-r">&times;</td><td class="sc sc-r">&times;</td><td class="sc sc-r">&times;</td><td class="sc">50%</td></tr>
+    <tr><td>Pureva</td><td class="sc sc-g">&#10003;</td><td class="sc sc-g">&#10003;</td><td class="sc sc-g">&#10003;</td><td class="sc sc-r">&times;</td><td class="sc sc-r">&times;</td><td class="sc sc-r">&times;</td><td class="sc">50%</td></tr>
+    <tr><td>La Marque en Moins</td><td class="sc sc-g">&#10003;</td><td class="sc sc-g">&#10003;</td><td class="sc sc-g">&#10003;</td><td class="sc sc-r">&times;</td><td class="sc sc-r">&times;</td><td class="sc sc-r">&times;</td><td class="sc">50%</td></tr>
+    <tr><td>Nala pour Elle</td><td class="sc sc-g">&#10003;</td><td class="sc sc-g">&#10003;</td><td class="sc sc-g">&#10003;</td><td class="sc sc-r">&times;</td><td class="sc sc-r">&times;</td><td class="sc sc-r">&times;</td><td class="sc">50%</td></tr>
+    <tr><td>So'Cup</td><td class="sc sc-a">&sim;</td><td class="sc sc-g">&#10003;</td><td class="sc sc-g">&#10003;</td><td class="sc sc-r">&times;</td><td class="sc sc-r">&times;</td><td class="sc sc-r">&times;</td><td class="sc">42%</td></tr>
+    <tr><td>Alme Paris</td><td class="sc sc-g">&#10003;</td><td class="sc sc-g">&#10003;</td><td class="sc sc-r">&times;</td><td class="sc sc-r">&times;</td><td class="sc sc-r">&times;</td><td class="sc sc-r">&times;</td><td class="sc">33%</td></tr>
+    <tr><td>Respire</td><td class="sc sc-g">&#10003;</td><td class="sc sc-r">&times;</td><td class="sc sc-r">&times;</td><td class="sc sc-r">&times;</td><td class="sc sc-r">&times;</td><td class="sc sc-r">&times;</td><td class="sc">17%</td></tr>
+    <tr><td>LIVY</td><td class="sc sc-g">&#10003;</td><td class="sc sc-r">&times;</td><td class="sc sc-r">&times;</td><td class="sc sc-r">&times;</td><td class="sc sc-r">&times;</td><td class="sc sc-r">&times;</td><td class="sc">17%</td></tr>
+    <tr><td>Lialys</td><td class="sc sc-g">&#10003;</td><td class="sc sc-r">&times;</td><td class="sc sc-r">&times;</td><td class="sc sc-r">&times;</td><td class="sc sc-r">&times;</td><td class="sc sc-r">&times;</td><td class="sc">17%</td></tr>
+    <tr><td>Nuoro / Sync</td><td class="sc sc-r">&times;</td><td class="sc sc-r">&times;</td><td class="sc sc-r">&times;</td><td class="sc sc-r">&times;</td><td class="sc sc-r">&times;</td><td class="sc sc-r">&times;</td><td class="sc">0%</td></tr>
   </table>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════ -->
-<!-- SECTION 5: ROADMAP                    -->
-<!-- ══════════════════════════════════════ -->
-<div class="sh sh-orange"><h2>5 &mdash; Roadmap</h2></div>
+<!-- SECTION 5 -->
+<div class="sh"><h2>05 &mdash; Roadmap</h2></div>
 
-<div class="zone zo" style="margin-bottom:var(--sp-md)">
+<div class="zone" style="margin-bottom:var(--sp-md)">
   <div class="zh">La vision</div>
-  <div class="zd">L'OS doit devenir le cockpit central de chaque PM et chaque membre de prod. Pas juste un outil pour Martin. Chaque process repetitif (QA, segments, briefs, reporting) doit etre automatise ou assiste. Chaque call client doit etre indexe et cherchable. Chaque erreur recurrente doit etre catchee avant qu'elle parte en production.</div>
+  <div class="zd">L'OS devient le cockpit de chaque PM et chaque membre de prod. Chaque process repetitif automatise. Chaque call indexe. Chaque erreur catchee avant la production.</div>
 </div>
 
 <div class="row r3">
-  <div class="zone zo">
+  <div class="zone">
     <div class="zh">Fondations</div>
-    <div class="zd">Poser les bases pour que tout le reste fonctionne.</div>
+    <div class="zd">Les bases pour que tout le reste fonctionne.</div>
 
     <details open>
-      <summary><span class="d dr"></span> <strong>Vectoriser 150+ calls tl;dv</strong> <span class="stag tr">PRIORITE #1</span></summary>
+      <summary><span class="d dr"></span> <strong>Vectoriser 150+ calls</strong> <span class="stag stag-hi">P1</span></summary>
       <div class="det">
-        <strong>Le probleme :</strong> On a 150+ transcripts de calls clients sur tl;dv, mais ils ne sont pas cherchables. Quand un PM veut savoir "qu'est-ce que Mattia a dit sur les promos au dernier call ?", il doit ouvrir tl;dv et chercher manuellement.
-        <br><br><strong>Ce qu'on va faire :</strong> Extraire tous les transcripts, les decouper en chunks semantiques, les vectoriser dans ChromaDB. Resultat : une recherche semantique instantanee sur toute l'histoire des calls clients.
-        <br><br><strong>Impact :</strong> On pourra retrouver n'importe quelle decision, feedback, ou demande client en 2 secondes.
+        150+ transcripts de calls clients non cherchables. Extraire, decouper, vectoriser dans ChromaDB. Recherche semantique instantanee sur toute l'histoire des decisions clients.
       </div>
     </details>
-
     <details>
-      <summary><span class="d dr"></span> <strong>Brain MCP</strong> <span class="stag tr">INFRASTRUCTURE</span></summary>
+      <summary><span class="d dr"></span> <strong>Brain MCP</strong> <span class="stag stag-hi">INFRA</span></summary>
       <div class="det">
-        <strong>Le probleme :</strong> Aujourd'hui Claude Code doit lancer un script pour chercher dans la KB. C'est lent et ca casse le flow.
-        <br><br><strong>Ce qu'on va faire :</strong> Un serveur MCP qui expose toute la memoire de l'agence (calls indexes, KB, regles clients) comme une source de donnees native. Claude pourra y acceder en temps reel, sans lancer de script.
-        <br><br><strong>Impact :</strong> Recherche instantanee. Chaque conversation avec l'OS sera enrichie automatiquement du contexte pertinent.
+        Serveur MCP qui expose la memoire de l'agence comme source de donnees native. Claude y accede en temps reel, sans script.
       </div>
     </details>
-
     <details>
-      <summary><span class="d dr"></span> <strong>Skill /copy {slug}</strong> <span class="stag tr">REMPLACE /frenchmush</span></summary>
+      <summary><span class="d dr"></span> <strong>/copy {slug}</strong> <span class="stag">NEW</span></summary>
       <div class="det">
-        <strong>Le probleme :</strong> Le skill /frenchmush etait fait pour un seul client. On a besoin d'un skill generique qui marche pour tous.
-        <br><br><strong>Ce qu'on va faire :</strong> Un skill <code>/copy {slug}</code> qui charge automatiquement le copyhub du client et produit du copy dans le ton exact de la marque. Un seul skill pour 15 clients.
-        <br><br><strong>Qui l'utilisera :</strong> Les PM pour les briefs, la prod pour les emails et NLs.
+        Skill generique : charge le copyhub du client, produit du copy dans le ton exact. Un skill pour 15 clients.
       </div>
     </details>
-
     <details>
-      <summary><span class="d dg"></span> <strong>Re-vectoriser la knowledge base</strong> <span class="stag tg">FAIT</span></summary>
+      <summary><span class="d dg"></span> <strong>Re-vectoriser la KB</strong> <span class="stag">FAIT</span></summary>
       <div class="det">
-        KB re-indexee le 25 fev. 2026. <strong>50 fichiers, 1,995 chunks, 3.4M caracteres</strong> dans ChromaDB. Inclut les podcasts DTC (Operators, Marketing Operators, Finance Operators, Drew Fallon), le systeme LinkedIn, le playbook ecommerce REACH, et le lexique DTC.
+        50 fichiers, 1,995 chunks, 3.4M caracteres. Podcasts DTC, LinkedIn, playbook ecommerce, lexique DTC.
       </div>
     </details>
   </div>
 
-  <div class="zone zo">
+  <div class="zone">
     <div class="zh">Skills PM</div>
-    <div class="zd">Des outils faits pour les Project Managers.</div>
+    <div class="zd">Outils pour les Project Managers.</div>
 
     <details open>
-      <summary><span class="d dr"></span> <strong>/qa {slug}</strong> &mdash; QA automatique <span class="stag tr">HIGH IMPACT</span></summary>
+      <summary><span class="d dr"></span> <strong>/qa {slug}</strong> <span class="stag stag-hi">HIGH</span></summary>
       <div class="det">
-        <strong>Le probleme :</strong> Avant chaque envoi d'email, le PM doit checker manuellement : liens, segments, Smart Sending, orthographe, CTA, produits, footer, UTMs.
-        <br><br><strong>Ce que le skill fera :</strong>
-        <ol>
-          <li>Checker tous les liens (broken links, UTMs manquants)</li>
-          <li>Verifier le segment cible</li>
-          <li>Verifier Smart Sending et Quiet Hours</li>
-          <li>Checker l'orthographe et la coherence copyhub</li>
-          <li>Verifier que les CTA pointent vers les bons produits</li>
-          <li>Generer un rapport QA : OK / WARNING / ERREUR</li>
-        </ol>
+        QA automatique avant envoi : liens, segments, Smart Sending, orthographe, CTA, produits. Rapport OK / WARNING / ERREUR.
       </div>
     </details>
-
     <details>
-      <summary><span class="d dr"></span> <strong>/segment-check {slug}</strong> &mdash; Audit segments <span class="stag tr">HIGH IMPACT</span></summary>
+      <summary><span class="d dr"></span> <strong>/segment-check {slug}</strong> <span class="stag stag-hi">HIGH</span></summary>
       <div class="det">
-        <strong>Le probleme :</strong> Les segments Klaviyo se degradent avec le temps. Contacts inactifs, Apple MPP non filtre, chevauchements.
-        <br><br><strong>Ce que le skill fera :</strong>
-        <ul>
-          <li>Comparer vs notre framework (30j/60j/90j/180j, MPP filter, VIP)</li>
-          <li>Detecter les segments manquants</li>
-          <li>Alerter sur les segments trop larges ou etroits</li>
-          <li>Proposer des corrections precises</li>
-        </ul>
+        Comparer vs framework (30j/60j/90j/180j, MPP, VIP). Detecter manquants, alerter sur les trop larges/etroits.
       </div>
     </details>
-
     <details>
-      <summary><span class="d dr"></span> <strong>/pm-brief {slug}</strong> &mdash; Prep de call <span class="stag to">PM TOOL</span></summary>
-      <div class="det">
-        Generer un brief pre-call automatique en 2 min : tasks Asana en cours/retard, derniers emails + performance, commentaires Figma non resolus, resume du dernier call, points a aborder.
-      </div>
+      <summary><span class="d dr"></span> <strong>/pm-brief {slug}</strong> <span class="stag">PM</span></summary>
+      <div class="det">Brief pre-call en 2 min : tasks Asana, derniers emails, Figma non resolus, resume du dernier call.</div>
     </details>
-
     <details>
-      <summary><span class="d dr"></span> <strong>/reporting {slug}</strong> &mdash; Reporting mensuel <span class="stag to">PM TOOL</span></summary>
-      <div class="det">
-        Extraire les metriques Klaviyo du mois, comparer aux benchmarks sectoriels et au mois precedent, generer un PDF propre avec charts, top/flop campaigns, et recommandations.
-      </div>
+      <summary><span class="d dr"></span> <strong>/reporting {slug}</strong> <span class="stag">PM</span></summary>
+      <div class="det">Metriques du mois vs benchmarks vs mois precedent. PDF avec charts, top/flop, recommandations.</div>
     </details>
   </div>
 
-  <div class="zone zo">
+  <div class="zone">
     <div class="zh">Skills Production</div>
-    <div class="zd">Des outils pour la prod : copy, design, QA, learnings.</div>
+    <div class="zd">Copy, design, QA, learnings.</div>
 
     <details open>
-      <summary><span class="d dr"></span> <strong>/flow-check {slug}</strong> &mdash; Audit des flows <span class="stag tr">HIGH IMPACT</span></summary>
+      <summary><span class="d dr"></span> <strong>/flow-check {slug}</strong> <span class="stag stag-hi">HIGH</span></summary>
       <div class="det">
-        <strong>Le probleme :</strong> Les flows Klaviyo vivent : emails desactives, conditions qui changent, flows jamais actives. Sans check regulier, des clients perdent du revenue.
-        <br><br><strong>Ce que le skill fera :</strong>
-        <ul>
-          <li>Lister les flows actifs/drafts/manuels</li>
-          <li>Detecter les flows critiques manquants</li>
-          <li>Identifier les taux anormaux</li>
-          <li>Comparer vs l'architecture lifecycle ideale (Option B)</li>
-          <li>Score de sante + recommandations priorisees</li>
-        </ul>
+        Flows actifs/drafts, critiques manquants, taux anormaux. Comparer vs architecture lifecycle. Score + recommandations.
       </div>
     </details>
-
     <details>
-      <summary><span class="d dr"></span> <strong>/client-prep {slug}</strong> &mdash; Onboarding auto <span class="stag to">PROD TOOL</span></summary>
-      <div class="det">
-        Quand un nouveau client arrive : creer le dossier, lancer l'extraction Klaviyo, scraper le site, remplir identity.md, lancer le diagnostic, sync Figma. Tout en une commande.
-      </div>
+      <summary><span class="d dr"></span> <strong>/client-prep {slug}</strong> <span class="stag">PROD</span></summary>
+      <div class="det">Onboarding auto : dossier, extraction Klaviyo, scrape site, identity.md, diagnostic, Figma.</div>
     </details>
-
     <details>
-      <summary><span class="d dr"></span> <strong>/learn {slug}</strong> &mdash; Extraire les learnings <span class="stag to">PROD TOOL</span></summary>
-      <div class="det">
-        Lire tous les commentaires Figma + calls du client, extraire les regles et preferences, mettre a jour client-rules.md et ajouter les nouveaux learnings dans global-learnings.md.
-      </div>
+      <summary><span class="d dr"></span> <strong>/learn {slug}</strong> <span class="stag">PROD</span></summary>
+      <div class="det">Figma + calls du client, extraire regles, MAJ client-rules.md et global-learnings.md.</div>
     </details>
-
     <details>
-      <summary><span class="d dr"></span> <strong>Slack Bot</strong> &mdash; L'OS sans terminal <span class="stag to">EQUIPE</span></summary>
-      <div class="det">
-        Un bot dans Slack qui permet a toute l'equipe de poser des questions a l'OS sans ouvrir Claude Code. Aussi : notifications automatiques quand un segment se degrade, un flow a un taux anormal, ou une task est en retard.
-      </div>
+      <summary><span class="d dr"></span> <strong>Slack Bot</strong> <span class="stag">EQUIPE</span></summary>
+      <div class="det">L'equipe parle a l'OS depuis Slack. Notifications auto : segment degrade, flow anormal, task en retard.</div>
     </details>
   </div>
 </div>
 
-<div class="zone zo" style="margin-top:var(--sp-md)">
+<div class="zone" style="margin-top:var(--sp-md)">
   <div class="zh">Connexions manquantes</div>
-  <div class="zd">Les liens entre les outils existants qui n'existent pas encore.</div>
+  <div class="zd">Les liens entre outils qui n'existent pas encore.</div>
   <div class="g2" style="margin-top:var(--sp-sm)">
-    <div class="hbox hbox-r">
-      <strong style="color:var(--rose)">tl;dv &rarr; ChromaDB</strong>
-      150+ calls non indexes. On perd toute la memoire des decisions clients.
-    </div>
-    <div class="hbox hbox-r">
-      <strong style="color:var(--rose)">Klaviyo &rarr; QA automatique</strong>
-      Check des liens, segments, Smart Sending avant chaque envoi.
-    </div>
-    <div class="hbox hbox-a">
-      <strong style="color:var(--amber)">Asana &rarr; /pm-brief</strong>
-      Tasks pas exploitees automatiquement dans les briefs de call.
-    </div>
-    <div class="hbox hbox-a">
-      <strong style="color:var(--amber)">Figma &rarr; client-rules auto-update</strong>
-      Nouveaux commentaires mettent a jour les regles automatiquement.
-    </div>
-    <div class="hbox hbox-b">
-      <strong style="color:var(--blue)">ChromaDB &rarr; MCP Server</strong>
-      KB et calls accessibles en temps reel via MCP.
-    </div>
-    <div class="hbox hbox-b">
-      <strong style="color:var(--blue)">OS &rarr; Slack</strong>
-      L'equipe parle a l'OS depuis Slack, pas depuis le terminal.
-    </div>
+    <div class="hbox hbox-critical"><strong>tl;dv &rarr; ChromaDB</strong>150+ calls non indexes. Memoire des decisions clients perdue.</div>
+    <div class="hbox hbox-critical"><strong>Klaviyo &rarr; QA auto</strong>Check liens, segments, Smart Sending avant chaque envoi.</div>
+    <div class="hbox hbox-warning"><strong>Asana &rarr; /pm-brief</strong>Tasks pas exploitees dans les briefs de call.</div>
+    <div class="hbox hbox-warning"><strong>Figma &rarr; auto-update</strong>Nouveaux commentaires MAJ les regles automatiquement.</div>
+    <div class="hbox hbox-info"><strong>ChromaDB &rarr; MCP</strong>KB et calls accessibles en temps reel.</div>
+    <div class="hbox hbox-info"><strong>OS &rarr; Slack</strong>L'equipe utilise l'OS sans terminal.</div>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════ -->
-<!-- SECTION 6: SOUS LE CAPOT (SCRIPTS)    -->
-<!-- ══════════════════════════════════════ -->
-<div class="sh sh-blue"><h2>6 &mdash; Sous le capot (les 11 scripts)</h2></div>
+<!-- SECTION 6 -->
+<div class="sh"><h2>06 &mdash; Sous le capot</h2></div>
 
-<div class="zone zb">
-  <div class="zd" style="margin-bottom:0">L'equipe n'a <strong>jamais besoin de toucher aux scripts</strong>. L'OS les appelle automatiquement quand on lance une commande. Cette section est la pour reference.</div>
+<div class="zone">
+  <div class="zd" style="margin-bottom:0">L'equipe ne touche jamais aux scripts. L'OS les appelle automatiquement.</div>
 
   <div class="g2" style="margin-top:var(--sp-md)">
     <div class="script-card">
-      <div class="script-label" style="color:var(--blue)">Klaviyo</div>
+      <div class="script-label">Klaviyo</div>
       <div class="script-list">
-        <strong>klaviyo_diagnostics.py</strong> (1,903 L) &mdash; Diagnostic complet : health score, benchmarks, gaps<br>
-        <strong>klaviyo_toolkit.py</strong> (1,474 L) &mdash; API multi-client : flows, campaigns, segments, profils
+        <strong>klaviyo_diagnostics.py</strong> (1,903 L) &mdash; Health score, benchmarks, gaps<br>
+        <strong>klaviyo_toolkit.py</strong> (1,474 L) &mdash; API multi-client
       </div>
     </div>
     <div class="script-card">
-      <div class="script-label" style="color:var(--blue)">Projet & Calls</div>
+      <div class="script-label">Projet & Calls</div>
       <div class="script-list">
-        <strong>asana_toolkit.py</strong> (788 L) &mdash; Tasks, projets, recherche, overdue<br>
-        <strong>tldv_toolkit.py</strong> (463 L) &mdash; 150+ calls clients : transcripts, highlights
+        <strong>asana_toolkit.py</strong> (788 L) &mdash; Tasks, projets, recherche<br>
+        <strong>tldv_toolkit.py</strong> (463 L) &mdash; 150+ calls, transcripts
       </div>
     </div>
     <div class="script-card">
-      <div class="script-label" style="color:var(--blue)">Knowledge & Recherche</div>
+      <div class="script-label">Knowledge</div>
       <div class="script-list">
-        <strong>knowledge_search.py</strong> (881 L) &mdash; Recherche semantique (ChromaDB)<br>
-        <strong>vectorize_knowledge.py</strong> (237 L) &mdash; Re-indexation KB<br>
-        <strong>bote_ask.py</strong> (273 L) &mdash; RAG question/reponse avec sources
+        <strong>knowledge_search.py</strong> (881 L) &mdash; Recherche semantique<br>
+        <strong>vectorize_knowledge.py</strong> (237 L) &mdash; Re-indexation<br>
+        <strong>bote_ask.py</strong> (273 L) &mdash; RAG question/reponse
       </div>
     </div>
     <div class="script-card">
-      <div class="script-label" style="color:var(--blue)">Figma & Veille</div>
+      <div class="script-label">Figma & Veille</div>
       <div class="script-list">
-        <strong>figma-learnings.py</strong> (605 L) &mdash; Classification auto des commentaires<br>
+        <strong>figma-learnings.py</strong> (605 L) &mdash; Classification commentaires<br>
         <strong>figma-comments.py</strong> (169 L) &mdash; Extraction brute<br>
-        <strong>youtube-extract.py</strong> (204 L) &mdash; Transcription + extraction<br>
-        <strong>keyvault.py</strong> (434 L) &mdash; Gestion cles API (Keychain)
+        <strong>youtube-extract.py</strong> (204 L) &mdash; Transcription Whisper<br>
+        <strong>keyvault.py</strong> (434 L) &mdash; Keychain Apple
       </div>
     </div>
   </div>
-  <div class="footer-note">Total : <strong style="color:var(--blue)">7,431 lignes</strong> de Python &mdash; 6 APIs connectees (Klaviyo, Asana, tl;dv, Figma, YouTube/Whisper, ChromaDB)</div>
+  <div class="footer-note">7,431 lignes Python &mdash; 6 APIs connectees</div>
 </div>
 
-<!-- ══════════════════════════════════════ -->
-<!-- SECTION 7: SECURITE                   -->
-<!-- ══════════════════════════════════════ -->
-<div class="sh sh-cyan"><h2>7 &mdash; Securite</h2></div>
+<!-- SECTION 7 -->
+<div class="sh"><h2>07 &mdash; Securite</h2></div>
 
-<div class="zone zc">
+<div class="zone">
   <div class="row r2" style="margin:0">
     <div>
-      <div class="zh zh-sm">Pas de mot de passe en clair, nulle part</div>
-      <div class="zd">Toutes les cles API (Klaviyo x11, Asana, tl;dv, Figma, Higgsfield) sont dans le <strong>Keychain Apple</strong>. Les scripts les recuperent au moment de l'execution. Si quelqu'un accede au code, il ne voit aucun mot de passe.</div>
+      <div class="zh zh-sm">Zero mot de passe en clair</div>
+      <div class="zd" style="margin-bottom:0">Toutes les cles API (Klaviyo x11, Asana, tl;dv, Figma, Higgsfield) dans le Keychain Apple. Les scripts les recuperent a l'execution.</div>
     </div>
     <div>
       <div class="zh zh-sm">72 regles de permission</div>
-      <div class="zd">Claude Code ne peut pas faire n'importe quoi : les domaines web accessibles sont restreints aux sites clients, les commandes Bash sont limitees (python3, pdflatex, curl), et les operations destructives (git push force, delete) sont bloquees par defaut.</div>
+      <div class="zd" style="margin-bottom:0">Domaines web restreints, commandes Bash limitees, operations destructives bloquees par defaut.</div>
     </div>
   </div>
 </div>
