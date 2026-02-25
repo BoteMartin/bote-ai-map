@@ -224,132 +224,9 @@ details .det ol li{margin-bottom:6px}
 </div>
 
 <!-- ══════════════════════════════════════ -->
-<!-- SECTION 2: LES OUTILS (SCRIPTS)       -->
+<!-- SECTION 2: LES COMMANDES (SKILLS)     -->
 <!-- ══════════════════════════════════════ -->
-<div class="sh sh-blue"><h2>2 &mdash; Les outils : ce que l'OS sait faire (11 scripts)</h2></div>
-
-<div class="zone zb">
-  <div class="zh">Scripts Python</div>
-  <div class="zd">Ce sont les <strong>bras</strong> de l'OS. Chaque script se connecte a un service externe et fait un job precis. L'equipe n'a pas besoin de les lancer manuellement : les slash commands (section suivante) s'en chargent. Mais voici ce que chacun fait.</div>
-
-  <details>
-    <summary><span class="d dg"></span> <strong>klaviyo_diagnostics.py</strong> &mdash; Le docteur des comptes Klaviyo <span class="stag tb">1,903 lignes</span></summary>
-    <div class="det">
-      <strong>A quoi ca sert :</strong> Ce script analyse un compte Klaviyo de A a Z et produit un diagnostic complet.
-      <ul>
-        <li><strong>Health score</strong> : note globale du compte basee sur les flows actifs, les segments, la delivrabilite</li>
-        <li><strong>Benchmark</strong> : compare les taux d'ouverture, de clic, de conversion aux standards du secteur</li>
-        <li><strong>Gaps</strong> : identifie les flows manquants (ex: "pas de winback flow"), les segments non crees, les problemes de Smart Sending</li>
-        <li><strong>Recommandations</strong> : genere une liste de recommandations priorisees avec impact estime</li>
-      </ul>
-      <strong>Quand on l'utilise :</strong> A chaque audit de nouveau client, et en check-up periodique. C'est le moteur derriere <code>/audit-client</code> et <code>/klaviyo-audit</code>.
-      <br><br><strong>Exemple concret :</strong> "Lance un diagnostic sur le compte Hygee" &rarr; en 2 minutes, on a un rapport de 3 pages avec le health score, les 5 flows manquants, et les 3 segments a creer en priorite.
-    </div>
-  </details>
-
-  <details>
-    <summary><span class="d dg"></span> <strong>klaviyo_toolkit.py</strong> &mdash; L'acces direct aux donnees Klaviyo <span class="stag tb">1,474 lignes</span></summary>
-    <div class="det">
-      <strong>A quoi ca sert :</strong> Lit les donnees live de n'importe quel compte Klaviyo client sans ouvrir le dashboard.
-      <ul>
-        <li><strong>Flows</strong> : lister tous les flows actifs/drafts/manuels, avec leurs stats</li>
-        <li><strong>Campaigns</strong> : voir les dernieres campaigns envoyees, taux d'ouverture, revenue</li>
-        <li><strong>Segments</strong> : lister tous les segments, leur taille, leur definition</li>
-        <li><strong>Profils et commandes</strong> : chercher un profil, voir son historique d'achat</li>
-        <li><strong>Metriques</strong> : revenue par flow, par campaign, par segment</li>
-      </ul>
-      <strong>Quand on l'utilise :</strong> Chaque fois qu'on a besoin de data Klaviyo. Le script gere automatiquement le rate limiting (pas de risque de bloquer l'API) et la pagination (meme si le client a 500 flows).
-      <br><br><strong>Multi-client :</strong> Gere 11+ comptes. Il suffit de donner le slug du client et le script va chercher la bonne cle API dans le Keychain.
-    </div>
-  </details>
-
-  <details>
-    <summary><span class="d dg"></span> <strong>knowledge_search.py</strong> &mdash; Le moteur de recherche interne BOTE <span class="stag tb">881 lignes</span></summary>
-    <div class="det">
-      <strong>A quoi ca sert :</strong> Cherche dans toute la knowledge base (36 docs, 14,941 lignes) par <strong>sens</strong>, pas juste par mot-cle.
-      <ul>
-        <li>Ex: chercher "comment optimiser les billing reminders" trouve les bons passages meme s'ils parlent de "touchpoint de retention subscription"</li>
-        <li>Peut filtrer par categorie : <code>-c klaviyo</code> pour chercher uniquement dans les docs Klaviyo</li>
-        <li>Gere un budget de tokens pour ne pas surcharger le contexte de Claude</li>
-      </ul>
-      <strong>Quand on l'utilise :</strong> Automatiquement par les autres scripts et slash commands. Quand Claude a besoin d'une info interne, il interroge ce moteur pour trouver les passages pertinents.
-      <br><br><strong>Ce que ca contient :</strong> Docs Klaviyo (API, flows, segments), playbooks CRM, transcripts YouTube (Josh Tay, NLE), audits clients, guides d'outils, 79 learnings cross-clients.
-    </div>
-  </details>
-
-  <details>
-    <summary><span class="d dg"></span> <strong>asana_toolkit.py</strong> &mdash; La vue Asana sans ouvrir Asana <span class="stag tb">788 lignes</span></summary>
-    <div class="det">
-      <strong>A quoi ca sert :</strong> Affiche les tasks Asana directement dans l'OS.
-      <ul>
-        <li><strong>Par projet</strong> : "Montre-moi les tasks du projet Humble+" &rarr; liste par section (To Do, In Progress, Done)</li>
-        <li><strong>Tasks en retard</strong> : toutes les tasks overdue de l'equipe en une commande</li>
-        <li><strong>Mes tasks</strong> : les tasks assignees a une personne</li>
-        <li><strong>Recherche</strong> : trouver une task par mot-cle</li>
-      </ul>
-      <strong>Quand on l'utilise :</strong> Automatiquement quand on charge un client avec <code>/bote hygee</code>. L'OS affiche les tasks du projet en meme temps que le contexte de la marque. Plus besoin de jongler entre Asana et les fichiers.
-      <br><br><strong>Equipe mappee :</strong> Les 12 membres de BOTE sont configures avec leur GID Asana.
-    </div>
-  </details>
-
-  <details>
-    <summary><span class="d dg"></span> <strong>tldv_toolkit.py</strong> &mdash; L'archive de tous les calls clients <span class="stag tb">463 lignes</span></summary>
-    <div class="det">
-      <strong>A quoi ca sert :</strong> Retrouve et exploite les transcripts de 150+ calls clients enregistres sur tl;dv.
-      <ul>
-        <li><strong>Lister les meetings</strong> d'un client ou de toute l'agence</li>
-        <li><strong>Afficher un transcript</strong> complet ou les highlights seulement</li>
-        <li><strong>Sauvegarder en .md</strong> dans le dossier du client pour reference future</li>
-        <li><strong>Construire un index</strong> de tous les calls avec metadata</li>
-      </ul>
-      <strong>Quand on l'utilise :</strong> Quand on charge un client, l'OS affiche les 5 derniers calls. Aussi utilise pour retrouver une decision specifique : "Dans quel call Mattia a parle des promos ?"
-    </div>
-  </details>
-
-  <details>
-    <summary><span class="d dg"></span> <strong>figma-learnings.py</strong> &mdash; L'extraction des regles clients depuis Figma <span class="stag tb">605 lignes</span></summary>
-    <div class="det">
-      <strong>A quoi ca sert :</strong> Lit les commentaires sur les fichiers Figma et les classe automatiquement.
-      <ul>
-        <li><strong>Learning</strong> : regle permanente du client (ex: "Toujours utiliser le fond vert" chez LMEM)</li>
-        <li><strong>Action</strong> : tache concrete a faire (ex: "Changer le CTA en rouge")</li>
-        <li><strong>Preference</strong> : preference de style (ex: "Prefere les photos du dernier shoot")</li>
-        <li><strong>Trivial</strong> : "OK", "Valide", etc. &rarr; ignore</li>
-      </ul>
-      <strong>Quand on l'utilise :</strong> Via <code>/figma-sync</code>. Genere ou met a jour le fichier <code>client-rules.md</code> de chaque marque. C'est grace a ca que l'OS connait les preferences exactes de chaque client (854 threads, 22,593 commentaires analyses).
-    </div>
-  </details>
-
-  <details>
-    <summary><span class="d dg"></span> <strong>youtube-extract.py</strong> &mdash; La veille automatisee <span class="stag tb">204 lignes</span></summary>
-    <div class="det">
-      <strong>A quoi ca sert :</strong> Telecharge une video YouTube et la transcrit localement via Whisper (IA de transcription).
-      <ul>
-        <li>On lui donne une URL YouTube, il produit un transcript propre</li>
-        <li>Le transcript est ensuite analyse pour en extraire les learnings marketing</li>
-        <li>Les meilleurs learnings sont integres dans la knowledge base</li>
-      </ul>
-      <strong>Quand on l'utilise :</strong> Veille marketing. On a deja extrait 8 videos (Josh Tay, NLE, Blue Sense, Fleek Marketing, Big Growth Show) qui ont produit 79 learnings sur la retention, la subscription, l'attribution, le BFCM, etc.
-    </div>
-  </details>
-
-  <details>
-    <summary><span class="d dg"></span> <strong>Autres scripts utilitaires</strong> <span class="stag tb">4 scripts</span></summary>
-    <div class="det">
-      <ul>
-        <li><strong>keyvault.py</strong> (434 L) : Fait le pont entre tous les scripts et le Keychain Apple. C'est lui qui recupere les cles API de facon securisee.</li>
-        <li><strong>bote_ask.py</strong> (273 L) : Pose une question en langage naturel a la knowledge base et obtient une reponse redigee avec sources.</li>
-        <li><strong>vectorize_knowledge.py</strong> (237 L) : Re-indexe la base de connaissances quand on ajoute des docs. A lancer apres chaque ajout.</li>
-        <li><strong>figma-comments.py</strong> (169 L) : Version simplifiee de figma-learnings : extraction brute des commentaires sans classification.</li>
-      </ul>
-    </div>
-  </details>
-</div>
-
-<!-- ══════════════════════════════════════ -->
-<!-- SECTION 3: LES COMMANDES (SKILLS)     -->
-<!-- ══════════════════════════════════════ -->
-<div class="sh sh-green"><h2>3 &mdash; Les commandes : comment on s'en sert (9 slash commands)</h2></div>
+<div class="sh sh-green"><h2>2 &mdash; Les commandes : comment on s'en sert (slash commands)</h2></div>
 
 <div class="zone zg">
   <div class="zh">Slash Commands</div>
@@ -430,7 +307,7 @@ details .det ol li{margin-bottom:6px}
 <!-- ══════════════════════════════════════ -->
 <!-- SECTION 4: LA BASE DE CONNAISSANCES   -->
 <!-- ══════════════════════════════════════ -->
-<div class="sh sh-amber"><h2>4 &mdash; La base de connaissances (ce que l'OS sait)</h2></div>
+<div class="sh sh-amber"><h2>3 &mdash; La base de connaissances (ce que l'OS sait)</h2></div>
 
 <div class="row r2">
   <div class="zone za">
@@ -482,7 +359,7 @@ details .det ol li{margin-bottom:6px}
 <!-- ══════════════════════════════════════ -->
 <!-- SECTION 5: MATRICE CLIENTS            -->
 <!-- ══════════════════════════════════════ -->
-<div class="sh sh-rose"><h2>5 &mdash; Ou en est chaque client (matrice de completude)</h2></div>
+<div class="sh sh-rose"><h2>4 &mdash; Ou en est chaque client (matrice de completude)</h2></div>
 
 <div class="zone zr">
   <div class="zh">15 clients &times; 7 dimensions</div>
@@ -520,7 +397,7 @@ details .det ol li{margin-bottom:6px}
 <!-- ══════════════════════════════════════ -->
 <!-- SECTION 6: ROADMAP                    -->
 <!-- ══════════════════════════════════════ -->
-<div class="sh sh-orange"><h2>6 &mdash; Roadmap : ce qu'on va construire</h2></div>
+<div class="sh sh-orange"><h2>5 &mdash; Roadmap : ce qu'on va construire</h2></div>
 
 <div class="zone zo" style="margin-bottom:20px">
   <div class="zh">La vision</div>
@@ -698,6 +575,50 @@ details .det ol li{margin-bottom:6px}
       L'equipe doit pouvoir parler a l'OS depuis Slack, pas uniquement depuis le terminal.
     </div>
   </div>
+</div>
+
+<!-- ══════════════════════════════════════ -->
+<!-- SECTION 6: SOUS LE CAPOT (SCRIPTS)    -->
+<!-- ══════════════════════════════════════ -->
+<div class="sh sh-blue"><h2>6 &mdash; Sous le capot (les 11 scripts)</h2></div>
+
+<div class="zone zb">
+  <div class="zd" style="margin-bottom:0">L'equipe n'a <strong>jamais besoin de toucher aux scripts</strong>. L'OS les appelle automatiquement quand on lance une commande. Cette section est la pour reference : voici ce qui tourne en arriere-plan.</div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px">
+    <div style="padding:14px 18px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.05);border-radius:var(--radius-sm)">
+      <div style="font-weight:700;font-size:13px;color:var(--blue);margin-bottom:6px">Klaviyo</div>
+      <div style="font-size:12px;color:var(--tx2);line-height:1.7">
+        <strong style="color:var(--tx)">klaviyo_diagnostics.py</strong> (1,903 L) &mdash; Diagnostic complet : health score, benchmarks, gaps, recommandations<br>
+        <strong style="color:var(--tx)">klaviyo_toolkit.py</strong> (1,474 L) &mdash; API multi-client : flows, campaigns, segments, profils, metriques
+      </div>
+    </div>
+    <div style="padding:14px 18px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.05);border-radius:var(--radius-sm)">
+      <div style="font-weight:700;font-size:13px;color:var(--blue);margin-bottom:6px">Projet & Calls</div>
+      <div style="font-size:12px;color:var(--tx2);line-height:1.7">
+        <strong style="color:var(--tx)">asana_toolkit.py</strong> (788 L) &mdash; Tasks, projets, recherche, overdue, 12 membres mappes<br>
+        <strong style="color:var(--tx)">tldv_toolkit.py</strong> (463 L) &mdash; 150+ calls clients : transcripts, highlights, index
+      </div>
+    </div>
+    <div style="padding:14px 18px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.05);border-radius:var(--radius-sm)">
+      <div style="font-weight:700;font-size:13px;color:var(--blue);margin-bottom:6px">Knowledge & Recherche</div>
+      <div style="font-size:12px;color:var(--tx2);line-height:1.7">
+        <strong style="color:var(--tx)">knowledge_search.py</strong> (881 L) &mdash; Recherche semantique dans 36 docs (ChromaDB)<br>
+        <strong style="color:var(--tx)">vectorize_knowledge.py</strong> (237 L) &mdash; Re-indexation apres ajout de docs<br>
+        <strong style="color:var(--tx)">bote_ask.py</strong> (273 L) &mdash; RAG : question en langage naturel, reponse avec sources
+      </div>
+    </div>
+    <div style="padding:14px 18px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.05);border-radius:var(--radius-sm)">
+      <div style="font-weight:700;font-size:13px;color:var(--blue);margin-bottom:6px">Figma & Veille</div>
+      <div style="font-size:12px;color:var(--tx2);line-height:1.7">
+        <strong style="color:var(--tx)">figma-learnings.py</strong> (605 L) &mdash; Classification auto des commentaires Figma en learnings/actions<br>
+        <strong style="color:var(--tx)">figma-comments.py</strong> (169 L) &mdash; Extraction brute des commentaires<br>
+        <strong style="color:var(--tx)">youtube-extract.py</strong> (204 L) &mdash; Transcription YouTube via Whisper + extraction learnings<br>
+        <strong style="color:var(--tx)">keyvault.py</strong> (434 L) &mdash; Gestion securisee des cles API (Keychain Apple)
+      </div>
+    </div>
+  </div>
+  <div style="text-align:center;margin-top:16px;font-size:12px;color:var(--tx3)">Total : <strong style="color:var(--blue)">7,431 lignes</strong> de Python &mdash; 6 APIs connectees (Klaviyo, Asana, tl;dv, Figma, YouTube/Whisper, ChromaDB)</div>
 </div>
 
 <!-- ══════════════════════════════════════ -->
