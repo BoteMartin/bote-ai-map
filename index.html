@@ -61,7 +61,14 @@ code{font-family:'JetBrains Mono',monospace;font-size:12px;background:rgba(255,2
 .row{display:grid;gap:20px;margin-bottom:20px}
 .r2{grid-template-columns:1fr 1fr}
 .r3{grid-template-columns:1fr 1fr 1fr}
-@media(max-width:1000px){.r2,.r3{grid-template-columns:1fr}}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+
+@media(max-width:1000px){
+  .r3{grid-template-columns:1fr 1fr}
+}
+@media(max-width:700px){
+  .r2,.r3,.g2{grid-template-columns:1fr}
+}
 
 /* ── Zone cards (glass) ── */
 .zone{border-radius:var(--radius);padding:28px;border:1px solid;backdrop-filter:blur(8px);transition:border-color .3s}
@@ -122,6 +129,7 @@ details .det ol li{margin-bottom:6px}
 .mt tr:hover td{background:rgba(255,255,255,.02)}
 .sc{text-align:center;font-weight:700;font-size:14px}
 .sc-g{color:var(--green)}.sc-a{color:var(--amber)}.sc-r{color:var(--rose)}
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:var(--radius-xs);margin:10px 0}
 
 /* ── Progress ── */
 .pb{width:100%;height:5px;background:rgba(255,255,255,.04);border-radius:6px;overflow:hidden;margin:8px 0}
@@ -131,6 +139,7 @@ details .det ol li{margin-bottom:6px}
 .pipe{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:16px 0}
 .ps{border-radius:var(--radius-sm);padding:14px 16px;text-align:center;flex:1;min-width:100px;font-size:12.5px;font-weight:600;transition:transform .15s}
 .ps:hover{transform:translateY(-1px)}
+.arrow{color:var(--tx3);font-size:16px;flex-shrink:0}
 
 /* ── Highlight boxes ── */
 .hbox{border-radius:var(--radius-sm);padding:18px 22px;margin:8px 0;font-size:13px;line-height:1.65}
@@ -157,6 +166,69 @@ details .det ol li{margin-bottom:6px}
 ::-webkit-scrollbar-track{background:var(--bg)}
 ::-webkit-scrollbar-thumb{background:var(--bd);border-radius:4px}
 ::-webkit-scrollbar-thumb:hover{background:var(--bd2)}
+
+/* ── Tablet ── */
+@media(max-width:1000px){
+  #main{padding:20px 20px 80px}
+  .hero{padding:48px 0 24px}
+  .hero h1{font-size:40px}
+  .hero .stat{min-width:90px;padding:12px 16px}
+  .hero .stat .n{font-size:24px}
+  #bar{padding:12px 16px}
+  .sub{display:none}
+  .zone{padding:22px}
+  .zh{font-size:19px}
+  .sh{margin:36px 0 18px}
+}
+
+/* ── Mobile ── */
+@media(max-width:700px){
+  #main{padding:14px 12px 60px}
+  .hero{padding:36px 0 18px}
+  .hero h1{font-size:28px;letter-spacing:-1px}
+  .hero p{font-size:13px}
+  .hero .stats{gap:8px}
+  .hero .stat{min-width:auto;flex:1;padding:10px 8px}
+  .hero .stat .n{font-size:20px}
+  .hero .stat .l{font-size:8px;letter-spacing:.8px}
+  #bar{padding:10px 12px;flex-wrap:wrap}
+  #bar h1{font-size:15px}
+  .kpis{gap:4px}
+  .k{padding:5px 10px}
+  .k .n{font-size:13px}
+  .k .l{font-size:8px}
+  .zone{padding:16px;border-radius:var(--radius-sm)}
+  .zh{font-size:17px}
+  .zd{font-size:12.5px}
+  .sh h2{font-size:11px;letter-spacing:1.5px}
+  .sh{margin:28px 0 14px;gap:12px}
+  details summary{padding:12px 14px;font-size:12.5px;gap:8px}
+  details .det{padding:14px;font-size:12px}
+  details summary .stag{font-size:8px;padding:2px 7px}
+  .pipe{flex-direction:column;gap:6px}
+  .pipe .arrow{transform:rotate(90deg);font-size:14px}
+  .ps{min-width:auto;width:100%;padding:12px}
+  .hbox{padding:14px 16px;font-size:12px}
+  .mt{font-size:11px}
+  .mt th{padding:6px 8px;font-size:9px;white-space:nowrap}
+  .mt td{padding:5px 8px;white-space:nowrap}
+  .table-wrap{margin:6px -4px;border-radius:var(--radius-xs)}
+  .sc{font-size:12px}
+  code{font-size:10px;padding:2px 5px}
+  #gate h1{font-size:30px}
+  #gate p{font-size:12px;padding:0 20px}
+  #gate input{width:240px;font-size:14px;padding:14px 20px}
+}
+
+/* ── Small phones ── */
+@media(max-width:380px){
+  .hero h1{font-size:24px}
+  .hero .stat{padding:8px 6px}
+  .hero .stat .n{font-size:17px}
+  .kpis{display:none}
+  .zone{padding:12px}
+  .zh{font-size:15px}
+}
 </style>
 </head>
 <body>
@@ -213,11 +285,11 @@ details .det ol li{margin-bottom:6px}
   <div class="hbox hbox-p">
     <div class="pipe">
       <div class="ps" style="background:rgba(34,211,238,.08);border:1px solid rgba(34,211,238,.2);color:var(--cyan)">Sources<br><small style="font-weight:400;color:var(--tx2)">Klaviyo, Asana, tl;dv, Figma, YouTube</small></div>
-      <div style="color:var(--tx3);font-size:16px">&rarr;</div>
+      <div class="arrow">&rarr;</div>
       <div class="ps" style="background:rgba(167,139,250,.08);border:1px solid rgba(167,139,250,.2);color:var(--purple)">Cerveau<br><small style="font-weight:400;color:var(--tx2)">Claude Code + Knowledge Base</small></div>
-      <div style="color:var(--tx3);font-size:16px">&rarr;</div>
+      <div class="arrow">&rarr;</div>
       <div class="ps" style="background:rgba(74,222,128,.08);border:1px solid rgba(74,222,128,.2);color:var(--green)">Output<br><small style="font-weight:400;color:var(--tx2)">Copy, audits, PDFs, analyses</small></div>
-      <div style="color:var(--tx3);font-size:16px">&rarr;</div>
+      <div class="arrow">&rarr;</div>
       <div class="ps" style="background:rgba(251,113,133,.08);border:1px solid rgba(251,113,133,.2);color:var(--rose)">Livraison<br><small style="font-weight:400;color:var(--tx2)">Telegram, Asana, Slack</small></div>
     </div>
   </div>
@@ -365,6 +437,7 @@ details .det ol li{margin-bottom:6px}
   <div class="zh">15 clients &times; 7 dimensions</div>
   <div class="zd">Pour chaque client, l'OS a besoin de 7 briques pour etre a 100%. Voici ou on en est. <span class="d dg" style="vertical-align:middle"></span> = fait &nbsp; <span class="d da" style="vertical-align:middle"></span> = partiel &nbsp; <span class="d dr" style="vertical-align:middle"></span> = manquant. <strong>Objectif : amener les 5 premiers clients a 100%.</strong></div>
 
+  <div class="table-wrap">
   <table class="mt" style="font-size:12px">
     <tr>
       <th>Client</th>
@@ -392,6 +465,7 @@ details .det ol li{margin-bottom:6px}
     <tr><td>Lialys</td><td class="sc sc-g">&#10003;</td><td class="sc sc-r">&times;</td><td class="sc sc-r">&times;</td><td class="sc sc-r">&times;</td><td class="sc sc-r">&times;</td><td class="sc sc-r">&times;</td><td class="sc sc-r">17%</td></tr>
     <tr><td>Nuoro / Sync Protein</td><td class="sc sc-r">&times;</td><td class="sc sc-r">&times;</td><td class="sc sc-r">&times;</td><td class="sc sc-r">&times;</td><td class="sc sc-r">&times;</td><td class="sc sc-r">&times;</td><td class="sc sc-r">0%</td></tr>
   </table>
+  </div>
 </div>
 
 <!-- ══════════════════════════════════════ -->
@@ -549,7 +623,7 @@ details .det ol li{margin-bottom:6px}
 <div class="zone zo" style="margin-top:20px">
   <div class="zh">Connexions manquantes a construire</div>
   <div class="zd">Les liens entre les outils existants qui n'existent pas encore et qui debloqueraient de la valeur.</div>
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px">
+  <div class="g2" style="margin-top:14px">
     <div class="hbox hbox-r">
       <strong style="color:var(--rose)">tl;dv &rarr; ChromaDB</strong>
       150+ calls non indexes. On perd toute la memoire des decisions clients. C'est le lien #1 a construire.
@@ -585,7 +659,7 @@ details .det ol li{margin-bottom:6px}
 <div class="zone zb">
   <div class="zd" style="margin-bottom:0">L'equipe n'a <strong>jamais besoin de toucher aux scripts</strong>. L'OS les appelle automatiquement quand on lance une commande. Cette section est la pour reference : voici ce qui tourne en arriere-plan.</div>
 
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px">
+  <div class="g2" style="margin-top:18px;gap:10px">
     <div style="padding:14px 18px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.05);border-radius:var(--radius-sm)">
       <div style="font-weight:700;font-size:13px;color:var(--blue);margin-bottom:6px">Klaviyo</div>
       <div style="font-size:12px;color:var(--tx2);line-height:1.7">
