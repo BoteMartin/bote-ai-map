@@ -608,9 +608,10 @@ details .det ol li{margin-bottom:4px}
 
 <script>
 const $=s=>document.querySelector(s);
-$('#pw').addEventListener('keydown',e=>{
+async function sha256(s){const d=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s));return Array.from(new Uint8Array(d)).map(b=>b.toString(16).padStart(2,'0')).join('')}
+$('#pw').addEventListener('keydown',async e=>{
   if(e.key==='Enter'){
-    if(e.target.value==='bote2026'){
+    if(await sha256(e.target.value)==='3027e1818c42b7b700a87a4e8da832c8faa8f2e57af085d1c06db2766a6c1929'){
       $('#gate').classList.add('off');
       $('#bar').style.display='flex';
       $('#main').style.display='block';
