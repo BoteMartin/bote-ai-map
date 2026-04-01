@@ -239,14 +239,14 @@ details .det ol li{margin-bottom:4px}
 <div id="bar">
   <div style="display:flex;align-items:center;flex-shrink:0">
     <h1>BOTE <b>OS</b></h1>
-    <span class="sub">v4 &mdash; 15 mars 2026</span>
+    <span class="sub">v5 &mdash; 1 avril 2026</span>
   </div>
   <div class="kpis">
-    <div class="k"><span class="n">30</span><span class="l">Scripts</span></div>
-    <div class="k"><span class="n">15</span><span class="l">Skills</span></div>
+    <div class="k"><span class="n">31</span><span class="l">Scripts</span></div>
+    <div class="k"><span class="n">42</span><span class="l">Skills</span></div>
     <div class="k"><span class="n">10</span><span class="l">APIs</span></div>
-    <div class="k"><span class="n">62</span><span class="l">Docs</span></div>
-    <div class="k"><span class="n">11</span><span class="l">Clients</span></div>
+    <div class="k"><span class="n">72</span><span class="l">Docs</span></div>
+    <div class="k"><span class="n">12</span><span class="l">Clients</span></div>
   </div>
 </div>
 
@@ -258,13 +258,13 @@ details .det ol li{margin-bottom:4px}
   <p>L'OS connecte Klaviyo, Asana, Figma et tl;dv a Claude. PM, production, strat : chacun accede aux donnees clients, a la knowledge base et aux automatisations depuis un seul endroit.</p>
   <p class="hero-sub">Cliquez sur chaque element pour voir le detail.</p>
   <div class="stats">
-    <div class="stat"><div class="n">30</div><div class="l">Scripts</div></div>
-    <div class="stat"><div class="n">15</div><div class="l">Commands</div></div>
+    <div class="stat"><div class="n">31</div><div class="l">Scripts</div></div>
+    <div class="stat"><div class="n">42</div><div class="l">Skills</div></div>
     <div class="stat"><div class="n">10</div><div class="l">APIs</div></div>
-    <div class="stat"><div class="n">62</div><div class="l">Docs</div></div>
-    <div class="stat"><div class="n">11</div><div class="l">Clients</div></div>
+    <div class="stat"><div class="n">72</div><div class="l">Docs</div></div>
+    <div class="stat"><div class="n">12</div><div class="l">Clients</div></div>
     <div class="stat"><div class="n">79</div><div class="l">Learnings</div></div>
-    <div class="stat"><div class="n">21,959</div><div class="l">Lignes</div></div>
+    <div class="stat"><div class="n">22,541</div><div class="l">Lignes</div></div>
   </div>
 </div>
 
@@ -273,7 +273,7 @@ details .det ol li{margin-bottom:4px}
 
 <div class="zone" style="margin-bottom:var(--sp-md)">
   <div class="zh">Le principe</div>
-  <div class="zd">L'OS fonctionne comme un assistant specialise. On lui parle dans le terminal, il a acces a tout : comptes Klaviyo, tasks Asana, transcripts de calls, commentaires Figma, et 50 documents internes. Audits, copy, rapports, QA en quelques minutes.</div>
+  <div class="zd">L'OS fonctionne comme un assistant specialise. On lui parle dans le terminal, il a acces a tout : comptes Klaviyo, tasks Asana, transcripts de calls, commentaires Figma, et 72 documents internes. Audits, copy, rapports, QA en quelques minutes.</div>
   <div class="pipe">
     <div class="ps">Sources<small>Klaviyo, Asana, tl;dv, Figma</small></div>
     <div class="arrow">&rarr;</div>
@@ -290,7 +290,7 @@ details .det ol li{margin-bottom:4px}
 
 <div class="zone">
   <div class="zh">Les commandes</div>
-  <div class="zd">Raccourcis qui lancent des operations complexes en une ligne. C'est l'interface entre l'equipe et l'infrastructure.</div>
+  <div class="zd">42 skills qui lancent des operations complexes en une ligne. C'est l'interface entre l'equipe et l'infrastructure.</div>
 
   <details open>
     <summary><span class="d dg"></span> <strong>/bote</strong> ou <strong>/bote {slug}</strong> &mdash; Charger le contexte <span class="stag">66 L</span></summary>
@@ -357,6 +357,25 @@ details .det ol li{margin-bottom:4px}
   </details>
 
   <details>
+    <summary><span class="d dg"></span> <strong>/billing</strong> &mdash; Facturation auto <span class="stag">NEW v5</span></summary>
+    <div class="det">
+      <strong>Facturation complete depuis le terminal.</strong> Generer les PDFs, preview, envoyer par email, suivre les paiements, detecter les retards.
+      <ul>
+        <li>Bot Telegram avec reminders automatiques (1er du mois)</li>
+        <li>LaunchD services : reminder, bot, overdue check</li>
+        <li>Statuts : generated &rarr; sent &rarr; paid (ou overdue)</li>
+      </ul>
+    </div>
+  </details>
+
+  <details>
+    <summary><span class="d dg"></span> <strong>/triage-inbox</strong> &mdash; Triage Gmail <span class="stag">NEW v5</span></summary>
+    <div class="det">
+      Trie les emails de martin@bote.agency : factures equipe, veille marques, relances clients. Classement automatique par priorite.
+    </div>
+  </details>
+
+  <details>
     <summary><span class="d dg"></span> <strong>/klaviyo-audit</strong>, <strong>/figma-sync</strong>, <strong>/miro-*</strong> <span class="stag">4 skills</span></summary>
     <div class="det">
       <ul>
@@ -367,6 +386,13 @@ details .det ol li{margin-bottom:4px}
       </ul>
     </div>
   </details>
+
+  <details>
+    <summary><span class="d dg"></span> <strong>/{slug}</strong> &mdash; 12 skills clients <span class="stag">42 total</span></summary>
+    <div class="det">
+      Chaque client a son propre skill qui charge identity, rules, Asana et tl;dv. 12 clients : hygee, dynveo, embryolisse, cut-by-fred, humble-plus, pureva, socup, la-marque-en-moins, nala-pour-elle, alme-paris, frenchmush, eclat.
+    </div>
+  </details>
 </div>
 
 <!-- SECTION 3 -->
@@ -374,19 +400,19 @@ details .det ol li{margin-bottom:4px}
 
 <div class="row r2">
   <div class="zone">
-    <div class="zh">62 documents, ~2,500 chunks</div>
-    <div class="zd">La memoire de l'agence. Tout ce qu'on sait sur Klaviyo, la retention, les flows, les podcasts DTC, la finance ecommerce, le systeme LinkedIn. L'OS puise dedans pour des recommandations basees sur nos connaissances, pas des reponses generiques.</div>
+    <div class="zh">72 documents, ~2,500 chunks</div>
+    <div class="zd">La memoire de l'agence. Tout ce qu'on sait sur Klaviyo, la retention, les flows, les podcasts DTC, la finance ecommerce, le systeme LinkedIn, les subscriptions Recharge. L'OS puise dedans pour des recommandations basees sur nos connaissances, pas des reponses generiques.</div>
 
     <details>
-      <summary>Docs Klaviyo <span class="stag">8 fichiers &middot; 6,887 L</span></summary>
-      <div class="det">API complete, flows, segments, campaigns, delivrabilite, K:AI, predictive analytics, integrations. Recommandations Klaviyo precises et a jour.</div>
+      <summary>Docs Klaviyo <span class="stag">15 fichiers</span></summary>
+      <div class="det">API complete, flows, segments, campaigns, delivrabilite, K:AI, predictive analytics, integrations, templates, strategies. Recommandations Klaviyo precises et a jour.</div>
     </details>
     <details>
       <summary>Podcasts DTC <span class="stag">7 fichiers &middot; 4,565 L</span></summary>
       <div class="det"><strong>Operators</strong> (Ridge, HexClad, Simple Modern), <strong>Marketing Operators</strong> (Connor MacDonald, Cody Plofker, Jones Road), <strong>Finance Operators</strong> (Drew Fallon, M&A, unit economics), <strong>Drew Fallon YouTube</strong> (RXBar $600M, Jolie $28M), <strong>Common Thread</strong>. Master index croise par pilier.</div>
     </details>
     <details>
-      <summary>YouTube <span class="stag">8 fichiers &middot; 3,117 L</span></summary>
+      <summary>YouTube <span class="stag">9 fichiers</span></summary>
       <div class="det">Josh Tay (NLE) sur retention et incrementalite, Blue Sense sur BFCM, Fleek sur zero party data, Big Growth Show sur scaling d'agence. Source des 79 learnings.</div>
     </details>
     <details>
@@ -398,7 +424,11 @@ details .det ol li{margin-bottom:4px}
       <div class="det">Prompt ghostwriter (5 messages core, 12 formats, 6 piliers), guide de style, guide CRM/retention LinkedIn, 100 hooks pre-valides, learnings sessions.</div>
     </details>
     <details>
-      <summary>Tools & Audits <span class="stag">8 fichiers &middot; 2,594 L</span></summary>
+      <summary>Recharge (Subscriptions) <span class="stag">6 fichiers</span></summary>
+      <div class="det">Documentation Recharge complete : integration Klaviyo, flows subscription, billing reminders, optimisation order 3, churn prevention. Cle pour les clients avec abonnements.</div>
+    </details>
+    <details>
+      <summary>Tools & Audits <span class="stag">8 fichiers</span></summary>
       <div class="det">PDF LaTeX, Higgsfield, Miro, Asana, Octane AI. Audits Dynveo et FrenchMush comme references.</div>
     </details>
     <details>
@@ -430,7 +460,7 @@ details .det ol li{margin-bottom:4px}
 <div class="sh"><h2>04 &mdash; Matrice clients</h2></div>
 
 <div class="zone">
-  <div class="zh">11 clients &times; 6 dimensions</div>
+  <div class="zh">12 clients &times; 6 dimensions</div>
   <div class="zd">6 briques pour etre a 100%. <span class="d dg" style="vertical-align:middle"></span> fait &nbsp; <span class="d da" style="vertical-align:middle"></span> partiel &nbsp; <span class="d dr" style="vertical-align:middle"></span> manquant</div>
 
   <div class="table-wrap">
@@ -447,6 +477,7 @@ details .det ol li{margin-bottom:4px}
     <tr><td>FrenchMush</td><td class="sc sc-g">&#10003;</td><td class="sc sc-g">&#10003;</td><td class="sc sc-g">&#10003;</td><td class="sc sc-r">&times;</td><td class="sc sc-r">&times;</td><td class="sc sc-g">&#10003;</td><td class="sc">67%</td></tr>
     <tr><td>Alme Paris</td><td class="sc sc-g">&#10003;</td><td class="sc sc-g">&#10003;</td><td class="sc sc-r">&times;</td><td class="sc sc-r">&times;</td><td class="sc sc-r">&times;</td><td class="sc sc-g">&#10003;</td><td class="sc">50%</td></tr>
     <tr><td>So'Cup</td><td class="sc sc-r">&times;</td><td class="sc sc-g">&#10003;</td><td class="sc sc-g">&#10003;</td><td class="sc sc-r">&times;</td><td class="sc sc-r">&times;</td><td class="sc sc-g">&#10003;</td><td class="sc">50%</td></tr>
+    <tr><td style="color:var(--tx3)">Nuoro</td><td class="sc sc-r">&times;</td><td class="sc sc-r">&times;</td><td class="sc sc-r">&times;</td><td class="sc sc-r">&times;</td><td class="sc sc-r">&times;</td><td class="sc sc-r">&times;</td><td class="sc" style="color:var(--tx3)">0%</td></tr>
   </table>
   </div>
 </div>
@@ -485,7 +516,7 @@ details .det ol li{margin-bottom:4px}
     <details>
       <summary><span class="d dg"></span> <strong>Re-vectoriser la KB</strong> <span class="stag">FAIT</span></summary>
       <div class="det">
-        53 fichiers, 2,054 chunks, 3.4M caracteres. Podcasts DTC, LinkedIn, playbook ecommerce, finance ecommerce (CM1/CM2/CM3), lexique DTC.
+        72 fichiers, ~2,500 chunks, ChromaDB 92MB. Podcasts DTC, LinkedIn, Recharge, playbook ecommerce, finance ecommerce (CM1/CM2/CM3), lexique DTC.
       </div>
     </details>
   </div>
@@ -535,8 +566,8 @@ details .det ol li{margin-bottom:4px}
       <div class="det">Figma + calls du client, extraire regles, MAJ client-rules.md et global-learnings.md.</div>
     </details>
     <details>
-      <summary><span class="d dr"></span> <strong>Slack Bot</strong> <span class="stag">EQUIPE</span></summary>
-      <div class="det">L'equipe parle a l'OS depuis Slack. Notifications auto : segment degrade, flow anormal, task en retard.</div>
+      <summary><span class="d dg"></span> <strong>Slack Bot</strong> <span class="stag">FAIT</span></summary>
+      <div class="det">Bot Slack actif avec executeurs Asana, GDrive, Klaviyo, tl;dv. L'equipe interagit avec l'OS depuis Slack.</div>
     </details>
   </div>
 </div>
@@ -550,7 +581,7 @@ details .det ol li{margin-bottom:4px}
     <div class="hbox hbox-warning"><strong>Asana &rarr; /pm-brief</strong>Tasks pas exploitees dans les briefs de call.</div>
     <div class="hbox hbox-warning"><strong>Figma &rarr; auto-update</strong>Nouveaux commentaires MAJ les regles automatiquement.</div>
     <div class="hbox hbox-info"><strong>ChromaDB &rarr; MCP</strong>KB et calls accessibles en temps reel.</div>
-    <div class="hbox hbox-info"><strong>OS &rarr; Slack</strong>L'equipe utilise l'OS sans terminal.</div>
+    <div class="hbox hbox-info" style="border-left-color:var(--green)"><strong>OS &rarr; Slack</strong> Bot actif. L'equipe utilise l'OS depuis Slack (Asana, GDrive, Klaviyo, tl;dv).</div>
   </div>
 </div>
 
@@ -622,11 +653,12 @@ details .det ol li{margin-bottom:4px}
         <strong>figma-learnings.py</strong> (605 L) &mdash; Classification commentaires<br>
         <strong>figma-comments.py</strong> (169 L) &mdash; Extraction brute<br>
         <strong>youtube-extract.py</strong> (204 L) &mdash; Transcription Whisper<br>
+        <strong>image_gen.py</strong> (253 L) &mdash; Higgsfield + rembg<br>
         <strong>keyvault.py</strong> (434 L) &mdash; Keychain Apple
       </div>
     </div>
   </div>
-  <div class="footer-note">21,959 lignes Python &mdash; 30 scripts &mdash; 10 APIs connectees</div>
+  <div class="footer-note">22,541 lignes Python &mdash; 31 scripts &mdash; 10 APIs connectees</div>
 </div>
 
 <!-- SECTION 7 -->
